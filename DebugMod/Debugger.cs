@@ -12,7 +12,7 @@ namespace DebugMod
         public Debugger(string modId, string modName, string modVersion) : base(modId, modName, modVersion) { }
         private const float SCALE_AMOUNT = 0.05f;
         private const string GEOMETRY_NAME = "GEO_Block";
-        private const int NUM_TEXT_LINES = 3;
+        private const int NUM_TEXT_LINES = 4;
 
         public bool DebugEnabled { get; private set; }
 
@@ -40,19 +40,26 @@ namespace DebugMod
 
             if (DebugEnabled && textObjects.Count >= NUM_TEXT_LINES && Core.Logic.Penitent != null)
             {
+                textObjects[0].text = $"Scene: " + Core.LevelManager.currentLevel.LevelName;
+
                 Vector2 position = Core.Logic.Penitent.transform.position;
-                textObjects[0].text = $"Position: ({(position.x).ToString("F1")}, {(position.y).ToString("F1")})";
+                textObjects[1].text = $"Position: ({RoundToOne(position.x)}, {RoundToOne(position.y)})";
 
                 Vector2 health = new Vector2(Core.Logic.Penitent.Stats.Life.Current, Core.Logic.Penitent.Stats.Life.CurrentMax);
-                textObjects[1].text = $"HP: {health.x}/{health.y}";
+                textObjects[2].text = $"HP: {RoundToOne(health.x)}/{RoundToOne(health.y)}";
 
                 Vector2 fervour = new Vector2(Core.Logic.Penitent.Stats.Fervour.Current, Core.Logic.Penitent.Stats.Fervour.CurrentMax);
-                textObjects[2].text = $"FP: {fervour.x}/{fervour.y}";
+                textObjects[3].text = $"FP: {RoundToOne(fervour.x)}/{RoundToOne(fervour.y)}";
             }
         }
 
         protected override void LevelLoaded(string oldLevel, string newLevel) { ShowDebug(); }
         protected override void LevelUnloaded(string oldLevel, string newLevel) { HideDebug(); }
+
+        private string RoundToOne(float value)
+        {
+            return value.ToString("F1");
+        }
 
         private void ShowDebug()
         {
