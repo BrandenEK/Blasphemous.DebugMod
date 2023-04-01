@@ -14,6 +14,7 @@ namespace DebugMod
         private const string GEOMETRY_NAME = "GEO_Block";
         private const int NUM_TEXT_LINES = 4;
         private const float CAMERA_SPEED = 0.1f;
+        private const float CAMERA_MULTIPLIER = 3f;
 
         private Sprite hitboxImage;
         private List<GameObject> sceneHitboxes = new List<GameObject>();
@@ -265,14 +266,16 @@ namespace DebugMod
 
             if (EnabledFreeCam)
             {
+                float camSpeed = Input.GetKey(KeyCode.LeftControl) ? CAMERA_SPEED * CAMERA_MULTIPLIER : CAMERA_SPEED;
+
                 if (Input.GetKey(KeyCode.LeftArrow))
-                    cameraPosition += Vector3.left * CAMERA_SPEED;
+                    cameraPosition += Vector3.left * camSpeed;
                 if (Input.GetKey(KeyCode.RightArrow))
-                    cameraPosition += Vector3.right * CAMERA_SPEED;
+                    cameraPosition += Vector3.right * camSpeed;
                 if (Input.GetKey(KeyCode.DownArrow))
-                    cameraPosition += Vector3.down * CAMERA_SPEED;
+                    cameraPosition += Vector3.down * camSpeed;
                 if (Input.GetKey(KeyCode.UpArrow))
-                    cameraPosition += Vector3.up * CAMERA_SPEED;
+                    cameraPosition += Vector3.up * camSpeed;
                 Camera.main.transform.position = cameraPosition;
             }
             else
