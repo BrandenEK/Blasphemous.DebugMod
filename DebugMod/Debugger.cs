@@ -13,12 +13,14 @@ namespace DebugMod
         private const float SCALE_AMOUNT = 0.05f;
         private const string GEOMETRY_NAME = "GEO_Block";
         private const int NUM_TEXT_LINES = 4;
+        private const float CAMERA_SPEED = 0.1f;
 
         public bool DebugEnabled { get; private set; }
 
         private Sprite hitboxImage;
         private List<GameObject> sceneHitboxes = new List<GameObject>();
         private List<Text> textObjects = new List<Text>();
+        private Vector3 cameraPosition;
 
         protected override void Initialize()
         {
@@ -50,6 +52,36 @@ namespace DebugMod
 
                 Vector2 fervour = new Vector2(Core.Logic.Penitent.Stats.Fervour.Current, Core.Logic.Penitent.Stats.Fervour.CurrentMax);
                 textObjects[3].text = $"FP: {RoundToOne(fervour.x)}/{RoundToOne(fervour.y)}";
+            }
+        }
+
+        protected override void LateUpdate()
+        {
+            if (Camera.main == null) return;
+
+            if (DebugEnabled)
+            {
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    cameraPosition += Vector3.left * CAMERA_SPEED;
+                }
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    cameraPosition += Vector3.right * CAMERA_SPEED;
+                }
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    cameraPosition += Vector3.down * CAMERA_SPEED;
+                }
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    cameraPosition += Vector3.up * CAMERA_SPEED;
+                }
+                Camera.main.transform.position = cameraPosition;
+            }
+            else
+            {
+                cameraPosition = Camera.main.transform.position;
             }
         }
 
