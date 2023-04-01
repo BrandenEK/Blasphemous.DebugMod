@@ -14,16 +14,20 @@ namespace DebugMod
         private const string GEOMETRY_NAME = "GEO_Block";
         private const int NUM_TEXT_LINES = 4;
         private const float CAMERA_SPEED = 0.1f;
-        private const float CAMERA_MULTIPLIER = 3f;
+        private const float CAMERA_MULTIPLIER = 2.5f;
 
         private Sprite hitboxImage;
+        private Sprite cameraImage;
+
         private List<GameObject> sceneHitboxes = new List<GameObject>();
         private List<Text> textObjects = new List<Text>();
+        private Image cameraObject;
         private Vector3 cameraPosition;
 
         protected override void Initialize()
         {
-            hitboxImage = FileUtil.loadDataImages("hitbox.png", 1, 1, 1, 0, true, out Sprite[] images) ? images[0] : null;
+            hitboxImage = FileUtil.loadDataImages("hitbox.png", 1, 1, 1, 0, true, out Sprite[] hitbox) ? hitbox[0] : null;
+            cameraImage = FileUtil.loadDataImages("camera.png", 24, 24, 24, 0, true, out Sprite[] camera) ? camera[0] : null;
             DisableFileLogging = true;
         }
 
@@ -257,7 +261,36 @@ namespace DebugMod
         public bool EnabledFreeCam
         {
             get { return _enabledFreeCam; }
-            set { _enabledFreeCam = value; }
+            set
+            {
+                _enabledFreeCam = value;
+                if (value)
+                {
+                    ShowFreeCam();
+                }
+                else
+                {
+                    HideFreeCam();
+                }
+            }
+        }
+
+        private void ShowFreeCam()
+        {
+            if (cameraObject == null)
+                CreateCameraImage();
+            if (cameraObject != null)
+            {
+                cameraObject.enabled = true;
+            }
+        }
+
+        private void HideFreeCam()
+        {
+            if (cameraObject != null)
+            {
+                cameraObject.enabled = false;
+            }
         }
 
         private void UpdateFreeCam()
@@ -282,6 +315,35 @@ namespace DebugMod
             {
                 cameraPosition = Camera.main.transform.position;
             }
+        }
+
+        private void CreateCameraImage()
+        {
+            Transform parent = null;
+            foreach (PlayerPurgePoints obj in Object.FindObjectsOfType<PlayerPurgePoints>())
+            {
+                if (obj.name == "PurgePoints")
+                {
+                    parent = obj.transform;
+                    break;
+                }
+            }
+            if (parent == null) return;
+
+            GameObject camImage = new GameObject("Free Cam Image", typeof(RectTransform));
+
+            RectTransform rect = camImage.GetComponent<RectTransform>();
+            rect.gameObject.layer = LayerMask.NameToLayer("UI");
+            rect.SetParent(parent, false);
+            rect.anchorMin = new Vector2(1f, 1f);
+            rect.anchorMax = new Vector2(1f, 1f);
+            rect.pivot = new Vector2(1f, 1f);
+            rect.anchoredPosition = new Vector2(0f, -80f);
+            rect.sizeDelta = new Vector2(24, 24);
+
+            cameraObject = camImage.AddComponent<Image>();
+            cameraObject.sprite = cameraImage;
+            cameraObject.enabled = false;
         }
 
         #endregion Free Cam
