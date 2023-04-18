@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Framework.Managers;
+using CreativeSpore.SmartColliders;
+using Gameplay.GameControllers.Entities;
 using Gameplay.UI.Others.UIGameLogic;
 using ModdingAPI;
 
@@ -14,7 +16,8 @@ namespace DebugMod
         private const string GEOMETRY_NAME = "GEO_Block";
         private const int NUM_TEXT_LINES = 4;
         private const float CAMERA_SPEED = 0.1f;
-        private const float CAMERA_MULTIPLIER = 2.5f;
+        private const float PLAYER_SPEED = 0.1f;
+        private const float SPEED_MULTIPLIER = 2.5f;
 
         private Sprite hitboxImage;
         private Sprite cameraImage;
@@ -23,6 +26,7 @@ namespace DebugMod
         private List<Text> textObjects = new List<Text>();
         private Image cameraObject;
         private Vector3 cameraPosition;
+        private Vector3 playerPosition;
 
         protected override void Initialize()
         {
@@ -33,17 +37,21 @@ namespace DebugMod
 
         protected override void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Keypad7))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad7))
             {
                 EnabledText = !EnabledText;
             }
-            if (Input.GetKeyDown(KeyCode.Keypad8))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad8))
             {
                 EnabledHitboxes = !EnabledHitboxes;
             }
-            if (Input.GetKeyDown(KeyCode.Keypad9))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad9))
             {
                 EnabledFreeCam = !EnabledFreeCam;
+            }
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad4))
+            {
+                EnabledFreeMove = !EnabledFreeMove;
             }
         }
 
@@ -51,6 +59,7 @@ namespace DebugMod
         {
             UpdateDebugText();
             UpdateFreeCam();
+            UpdateFreeMove();
         }
 
         protected override void LevelLoaded(string oldLevel, string newLevel)
@@ -66,6 +75,7 @@ namespace DebugMod
             HideDebugText();
             HideHitboxes();
             EnabledFreeCam = false;
+            EnabledFreeMove = false;
         }
 
         #region Debug Text
@@ -299,15 +309,15 @@ namespace DebugMod
 
             if (EnabledFreeCam)
             {
-                float camSpeed = Input.GetKey(KeyCode.LeftControl) ? CAMERA_SPEED * CAMERA_MULTIPLIER : CAMERA_SPEED;
+                float camSpeed = UnityEngine.Input.GetKey(KeyCode.LeftControl) ? CAMERA_SPEED * SPEED_MULTIPLIER : CAMERA_SPEED;
 
-                if (Input.GetKey(KeyCode.LeftArrow))
+                if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
                     cameraPosition += Vector3.left * camSpeed;
-                if (Input.GetKey(KeyCode.RightArrow))
+                if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
                     cameraPosition += Vector3.right * camSpeed;
-                if (Input.GetKey(KeyCode.DownArrow))
+                if (UnityEngine.Input.GetKey(KeyCode.DownArrow))
                     cameraPosition += Vector3.down * camSpeed;
-                if (Input.GetKey(KeyCode.UpArrow))
+                if (UnityEngine.Input.GetKey(KeyCode.UpArrow))
                     cameraPosition += Vector3.up * camSpeed;
                 Camera.main.transform.position = cameraPosition;
             }
@@ -347,5 +357,96 @@ namespace DebugMod
         }
 
         #endregion Free Cam
+
+        #region Free Move
+
+        private PlatformCharacterController _playerController;
+        private PlatformCharacterController PlayerController
+        {
+            get
+            {
+                if (_playerController == null)
+                    _playerController = Core.Logic.Penitent.PlatformCharacterController;
+                return _playerController;
+            }
+        }
+        private SmartPlatformCollider _playerFloorCollider;
+        private SmartPlatformCollider PlayerFloorCollider
+        {
+            get
+            {
+                if (_playerFloorCollider == null)
+                    _playerFloorCollider = Core.Logic.Penitent.GetComponent<SmartPlatformCollider>();
+                return _playerFloorCollider;
+            }
+        }
+        private BoxCollider2D _playerDamageArea;
+        private BoxCollider2D PlayerDamageArea
+        {
+            get
+            {
+                if (_playerDamageArea == null)
+                    _playerDamageArea = Core.Logic.Penitent.GetComponentInChildren<BoxCollider2D>();
+                return _playerDamageArea;
+            }
+        }
+        private BoxCollider2D _playerTrapArea;
+        private BoxCollider2D PlayerTrapArea
+        {
+            get
+            {
+                if (_playerTrapArea == null)
+                    _playerTrapArea = Core.Logic.Penitent.GetComponentInChildren<CheckTrap>().GetComponent<BoxCollider2D>();
+                return _playerTrapArea;
+            }
+        }
+
+        private bool _enabledFreeMove = false;
+        public bool EnabledFreeMove
+        {
+            get { return _enabledFreeMove; }
+            set
+            {
+                if (_enabledFreeMove && !value)
+                {
+                    PlayerController.enabled = true;
+                    PlayerFloorCollider.enabled = true;
+                    PlayerDamageArea.enabled = true;
+                    PlayerTrapArea.enabled = true;
+                }
+                _enabledFreeMove = value;
+            }
+        }
+
+        private void UpdateFreeMove()
+        {
+            if (Core.Logic.Penitent == null) return;
+
+            if (EnabledFreeMove)
+            {
+                PlayerController.enabled = false;
+                PlayerFloorCollider.enabled = false;
+                PlayerDamageArea.enabled = false;
+                PlayerTrapArea.enabled = false;
+
+                float playSpeed = UnityEngine.Input.GetKey(KeyCode.RightControl) ? PLAYER_SPEED * SPEED_MULTIPLIER : PLAYER_SPEED;
+
+                if (UnityEngine.Input.GetKey(KeyCode.A))
+                    playerPosition += Vector3.left * playSpeed;
+                if (UnityEngine.Input.GetKey(KeyCode.D))
+                    playerPosition += Vector3.right * playSpeed;
+                if (UnityEngine.Input.GetKey(KeyCode.S))
+                    playerPosition += Vector3.down * playSpeed;
+                if (UnityEngine.Input.GetKey(KeyCode.W))
+                    playerPosition += Vector3.up * playSpeed;
+                Core.Logic.Penitent.transform.position = playerPosition;
+            }
+            else
+            {
+                playerPosition = Core.Logic.Penitent.transform.position;
+            }
+        }
+
+        #endregion Free Move
     }
 }

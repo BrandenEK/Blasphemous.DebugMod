@@ -9,7 +9,7 @@ namespace DebugMod
     {
         public const string MOD_ID = "com.damocles.blasphemous.debug-mod";
         public const string MOD_NAME = "Debug Mod";
-        public const string MOD_VERSION = "1.0.1";
+        public const string MOD_VERSION = "1.0.2";
 
         public static Debugger Debugger { get; private set; }
 
