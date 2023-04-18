@@ -16,8 +16,9 @@ namespace DebugMod
         private const string GEOMETRY_NAME = "GEO_Block";
         private const int NUM_TEXT_LINES = 4;
         private const float CAMERA_SPEED = 0.1f;
+        private const float CAMERA_MULTIPLIER = 2.5f;
         private const float PLAYER_SPEED = 0.1f;
-        private const float SPEED_MULTIPLIER = 2.5f;
+        private const float PLAYER_MULTIPLIER = 1.5f;
 
         private Sprite hitboxImage;
         private Sprite cameraImage;
@@ -309,7 +310,7 @@ namespace DebugMod
 
             if (EnabledFreeCam)
             {
-                float camSpeed = UnityEngine.Input.GetKey(KeyCode.LeftControl) ? CAMERA_SPEED * SPEED_MULTIPLIER : CAMERA_SPEED;
+                float camSpeed = UnityEngine.Input.GetKey(KeyCode.LeftControl) ? CAMERA_SPEED * CAMERA_MULTIPLIER : CAMERA_SPEED;
 
                 if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
                     cameraPosition += Vector3.left * camSpeed;
@@ -429,7 +430,7 @@ namespace DebugMod
                 PlayerDamageArea.enabled = false;
                 PlayerTrapArea.enabled = false;
 
-                float playSpeed = UnityEngine.Input.GetKey(KeyCode.RightControl) ? PLAYER_SPEED * SPEED_MULTIPLIER : PLAYER_SPEED;
+                float playSpeed = UnityEngine.Input.GetKey(KeyCode.RightControl) ? PLAYER_SPEED * PLAYER_MULTIPLIER : PLAYER_SPEED;
 
                 if (UnityEngine.Input.GetKey(KeyCode.A))
                     playerPosition += Vector3.left * playSpeed;
