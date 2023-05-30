@@ -38,19 +38,19 @@ namespace DebugMod
 
         protected override void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad7))
+            if (Input.GetKeyDown("DebugInfo"))
             {
                 EnabledText = !EnabledText;
             }
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad8))
+            if (Input.GetKeyDown("HitboxViewer"))
             {
                 EnabledHitboxes = !EnabledHitboxes;
             }
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad9))
+            if (Input.GetKeyDown("FreeCam"))
             {
                 EnabledFreeCam = !EnabledFreeCam;
             }
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad4))
+            if (Input.GetKeyDown("FreeMove"))
             {
                 EnabledFreeMove = !EnabledFreeMove;
             }
@@ -84,7 +84,7 @@ namespace DebugMod
         private bool _enabledText = false;
         public bool EnabledText
         {
-            get { return _enabledText; }
+            get => _enabledText;
             set
             {
                 _enabledText = value;
@@ -186,7 +186,7 @@ namespace DebugMod
         private bool _enabledHitboxes = false;
         public bool EnabledHitboxes
         {
-            get { return _enabledHitboxes; }
+            get => _enabledHitboxes;
             set
             {
                 _enabledHitboxes = value;
@@ -271,7 +271,7 @@ namespace DebugMod
         private bool _enabledFreeCam = false;
         public bool EnabledFreeCam
         {
-            get { return _enabledFreeCam; }
+            get => _enabledFreeCam;
             set
             {
                 _enabledFreeCam = value;
@@ -362,50 +362,21 @@ namespace DebugMod
         #region Free Move
 
         private PlatformCharacterController _playerController;
-        private PlatformCharacterController PlayerController
-        {
-            get
-            {
-                if (_playerController == null)
-                    _playerController = Core.Logic.Penitent.PlatformCharacterController;
-                return _playerController;
-            }
-        }
+        private PlatformCharacterController PlayerController => _playerController ??= Core.Logic.Penitent.PlatformCharacterController;
+
         private SmartPlatformCollider _playerFloorCollider;
-        private SmartPlatformCollider PlayerFloorCollider
-        {
-            get
-            {
-                if (_playerFloorCollider == null)
-                    _playerFloorCollider = Core.Logic.Penitent.GetComponent<SmartPlatformCollider>();
-                return _playerFloorCollider;
-            }
-        }
+        private SmartPlatformCollider PlayerFloorCollider => _playerFloorCollider ??= Core.Logic.Penitent.GetComponent<SmartPlatformCollider>();
+
         private BoxCollider2D _playerDamageArea;
-        private BoxCollider2D PlayerDamageArea
-        {
-            get
-            {
-                if (_playerDamageArea == null)
-                    _playerDamageArea = Core.Logic.Penitent.GetComponentInChildren<BoxCollider2D>();
-                return _playerDamageArea;
-            }
-        }
+        private BoxCollider2D PlayerDamageArea => _playerDamageArea ??= Core.Logic.Penitent.GetComponentInChildren<BoxCollider2D>();
+
         private BoxCollider2D _playerTrapArea;
-        private BoxCollider2D PlayerTrapArea
-        {
-            get
-            {
-                if (_playerTrapArea == null)
-                    _playerTrapArea = Core.Logic.Penitent.GetComponentInChildren<CheckTrap>().GetComponent<BoxCollider2D>();
-                return _playerTrapArea;
-            }
-        }
+        private BoxCollider2D PlayerTrapArea => _playerTrapArea ??= Core.Logic.Penitent.GetComponentInChildren<CheckTrap>().GetComponent<BoxCollider2D>();
 
         private bool _enabledFreeMove = false;
         public bool EnabledFreeMove
         {
-            get { return _enabledFreeMove; }
+            get => _enabledFreeMove;
             set
             {
                 if (_enabledFreeMove && !value)
