@@ -359,16 +359,45 @@ namespace DebugMod
         #region Free Move
 
         private PlatformCharacterController _playerController;
-        private PlatformCharacterController PlayerController => _playerController ??= Core.Logic.Penitent.PlatformCharacterController;
-
+        private PlatformCharacterController PlayerController
+        {
+            get
+            {
+                if (_playerController == null)
+                    _playerController = Core.Logic.Penitent.PlatformCharacterController;
+                return _playerController;
+            }
+        }
         private SmartPlatformCollider _playerFloorCollider;
-        private SmartPlatformCollider PlayerFloorCollider => _playerFloorCollider ??= Core.Logic.Penitent.GetComponent<SmartPlatformCollider>();
-
+        private SmartPlatformCollider PlayerFloorCollider
+        {
+            get
+            {
+                if (_playerFloorCollider == null)
+                    _playerFloorCollider = Core.Logic.Penitent.GetComponent<SmartPlatformCollider>();
+                return _playerFloorCollider;
+            }
+        }
         private BoxCollider2D _playerDamageArea;
-        private BoxCollider2D PlayerDamageArea => _playerDamageArea ??= Core.Logic.Penitent.GetComponentInChildren<BoxCollider2D>();
-
+        private BoxCollider2D PlayerDamageArea
+        {
+            get
+            {
+                if (_playerDamageArea == null)
+                    _playerDamageArea = Core.Logic.Penitent.GetComponentInChildren<BoxCollider2D>();
+                return _playerDamageArea;
+            }
+        }
         private BoxCollider2D _playerTrapArea;
-        private BoxCollider2D PlayerTrapArea => _playerTrapArea ??= Core.Logic.Penitent.GetComponentInChildren<CheckTrap>().GetComponent<BoxCollider2D>();
+        private BoxCollider2D PlayerTrapArea
+        {
+            get
+            {
+                if (_playerTrapArea == null)
+                    _playerTrapArea = Core.Logic.Penitent.GetComponentInChildren<CheckTrap>().GetComponent<BoxCollider2D>();
+                return _playerTrapArea;
+            }
+        }
 
         private bool _enabledFreeMove = false;
         public bool EnabledFreeMove
