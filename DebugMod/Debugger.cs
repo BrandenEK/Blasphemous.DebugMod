@@ -310,16 +310,13 @@ namespace DebugMod
 
             if (EnabledFreeCam)
             {
-                float camSpeed = UnityEngine.Input.GetKey(KeyCode.LeftControl) ? CAMERA_SPEED * CAMERA_MULTIPLIER : CAMERA_SPEED;
+                float camSpeed = Input.GetKey("CamSpeedIncrease") ? CAMERA_SPEED * CAMERA_MULTIPLIER : CAMERA_SPEED;
 
-                if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
-                    cameraPosition += Vector3.left * camSpeed;
-                if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
-                    cameraPosition += Vector3.right * camSpeed;
-                if (UnityEngine.Input.GetKey(KeyCode.DownArrow))
-                    cameraPosition += Vector3.down * camSpeed;
-                if (UnityEngine.Input.GetKey(KeyCode.UpArrow))
-                    cameraPosition += Vector3.up * camSpeed;
+                if (Input.GetKey("CamLeft")) cameraPosition += Vector3.left * camSpeed;
+                if (Input.GetKey("CamRight")) cameraPosition += Vector3.right * camSpeed;
+                if (Input.GetKey("CamDown")) cameraPosition += Vector3.down * camSpeed;
+                if (Input.GetKey("CamUp")) cameraPosition += Vector3.up * camSpeed;
+
                 Camera.main.transform.position = cameraPosition;
             }
             else
@@ -401,16 +398,13 @@ namespace DebugMod
                 PlayerDamageArea.enabled = false;
                 PlayerTrapArea.enabled = false;
 
-                float playSpeed = UnityEngine.Input.GetKey(KeyCode.RightControl) ? PLAYER_SPEED * PLAYER_MULTIPLIER : PLAYER_SPEED;
+                float playSpeed = Input.GetKey("MoveSpeedIncrease") ? PLAYER_SPEED * PLAYER_MULTIPLIER : PLAYER_SPEED;
 
-                if (UnityEngine.Input.GetKey(KeyCode.A))
-                    playerPosition += Vector3.left * playSpeed;
-                if (UnityEngine.Input.GetKey(KeyCode.D))
-                    playerPosition += Vector3.right * playSpeed;
-                if (UnityEngine.Input.GetKey(KeyCode.S))
-                    playerPosition += Vector3.down * playSpeed;
-                if (UnityEngine.Input.GetKey(KeyCode.W))
-                    playerPosition += Vector3.up * playSpeed;
+                if (Input.GetKey("MoveLeft")) playerPosition += Vector3.left * playSpeed;
+                if (Input.GetKey("MoveRight")) playerPosition += Vector3.right * playSpeed;
+                if (Input.GetKey("MoveDown")) playerPosition += Vector3.down * playSpeed;
+                if (Input.GetKey("MoveUp")) playerPosition += Vector3.up * playSpeed;
+
                 Core.Logic.Penitent.transform.position = playerPosition;
             }
             else

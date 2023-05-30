@@ -1,0 +1,14 @@
+DebugInfo: Keypad7
+HitboxViewer: Keypad8
+FreeCam: Keypad9
+FreeMove: Keypad4
+CamLeft: LeftArrow
+CamRight: RightArrow
+CamUp: UpArrow
+CamDown: DownArrow
+CamSpeedIncrease: LeftControl
+MoveLeft: A
+MoveRight: D
+MoveUp: W
+MoveDown: S
+MoveSpeedIncrease: RightControl
