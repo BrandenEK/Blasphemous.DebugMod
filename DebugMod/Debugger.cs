@@ -31,8 +31,8 @@ namespace DebugMod
 
         protected override void Initialize()
         {
-            hitboxImage = FileUtil.loadDataImages("hitbox.png", 1, 1, 1, 0, true, out Sprite[] hitbox) ? hitbox[0] : null;
-            cameraImage = FileUtil.loadDataImages("camera.png", 24, 24, 24, 0, true, out Sprite[] camera) ? camera[0] : null;
+            hitboxImage = FileUtil.loadDataImages("hitbox.png", new Vector2Int(1, 1), new Vector2(0.5f, 0.5f), 1, 0, true, out Sprite[] hitbox) ? hitbox[0] : null;
+            cameraImage = FileUtil.loadDataImages("camera.png", new Vector2Int(24, 24), new Vector2(0.5f, 0.5f), 24, 0, true, out Sprite[] camera) ? camera[0] : null;
             DisableFileLogging = true;
         }
 
