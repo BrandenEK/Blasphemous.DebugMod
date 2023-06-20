@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using CreativeSpore.SmartColliders;
 using Framework.Managers;
-using CreativeSpore.SmartColliders;
 using Gameplay.GameControllers.Entities;
 using Gameplay.UI.Others.UIGameLogic;
 using ModdingAPI;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace DebugMod
 {
@@ -23,8 +23,8 @@ namespace DebugMod
         private Sprite hitboxImage;
         private Sprite cameraImage;
 
-        private List<GameObject> sceneHitboxes = new List<GameObject>();
-        private List<Text> textObjects = new List<Text>();
+        private readonly List<GameObject> sceneHitboxes = new();
+        private readonly List<Text> textObjects = new();
         private Image cameraObject;
         private Vector3 cameraPosition;
         private Vector3 playerPosition;
