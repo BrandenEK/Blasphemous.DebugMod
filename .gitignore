@@ -17,7 +17,6 @@
 mono_crash.*
 
 # Blasphemous Modding
-[Ll]ib/
 [Ee]xport/
 
 # Build results
