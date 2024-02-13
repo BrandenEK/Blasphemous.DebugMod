@@ -8,6 +8,8 @@ namespace Blasphemous.Debug;
 
 public class NoClip : IModule
 {
+    private readonly float _speed;
+
     private Vector3 playerPosition;
 
     private bool _enabledFreeMove = false;
@@ -25,6 +27,11 @@ public class NoClip : IModule
             }
             _enabledFreeMove = value;
         }
+    }
+
+    public NoClip(float speed)
+    {
+        _speed = speed;
     }
 
     public void OnLevelLoaded()
@@ -61,7 +68,7 @@ public class NoClip : IModule
             float v = Main.Debugger.InputHandler.GetAxis(AxisCode.MoveVertical, true);
             var direction = new Vector3(h, v).normalized;
 
-            playerPosition += direction * PLAYER_SPEED * Time.deltaTime;
+            playerPosition += direction * _speed * Time.deltaTime;
             Core.Logic.Penitent.transform.position = playerPosition;
         }
         else
@@ -110,6 +117,4 @@ public class NoClip : IModule
             return _playerTrapArea;
         }
     }
-
-    private const float PLAYER_SPEED = 2f;
 }

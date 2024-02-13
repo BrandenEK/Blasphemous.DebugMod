@@ -9,6 +9,12 @@ namespace Blasphemous.Debug;
 public class InfoDisplay : IModule
 {
     private readonly List<Text> textObjects = new();
+    private readonly int _precision;
+
+    public InfoDisplay(int precision)
+    {
+        _precision = precision;
+    }
 
     private bool _enabledText = false;
     public bool EnabledText
@@ -88,7 +94,7 @@ public class InfoDisplay : IModule
 
         string RoundToOne(float value)
         {
-            return value.ToString("F2");
+            return value.ToString($"F{_precision}");
         }
     }
 

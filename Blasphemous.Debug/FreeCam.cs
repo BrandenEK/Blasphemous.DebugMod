@@ -8,6 +8,7 @@ namespace Blasphemous.Debug;
 public class FreeCam : IModule
 {
     private readonly Sprite cameraImage;
+    private readonly float _speed;
 
     private Image cameraObject;
     private Vector3 cameraPosition;
@@ -30,9 +31,10 @@ public class FreeCam : IModule
         }
     }
 
-    public FreeCam(Sprite camera)
+    public FreeCam(Sprite camera, float speed)
     {
         cameraImage = camera;
+        _speed = speed;
     }
 
     public void OnLevelLoaded()
@@ -82,7 +84,7 @@ public class FreeCam : IModule
             float v = Main.Debugger.InputHandler.GetAxis(AxisCode.MoveRVertical, true);
             var direction = new Vector3(h, v).normalized;
 
-            cameraPosition += direction * CAMERA_SPEED * Time.deltaTime;
+            cameraPosition += direction * _speed * Time.deltaTime;
             Camera.main.transform.position = cameraPosition;
         }
         else
@@ -119,6 +121,4 @@ public class FreeCam : IModule
         cameraObject.sprite = cameraImage;
         cameraObject.enabled = false;
     }
-
-    private const float CAMERA_SPEED = 2f;
 }

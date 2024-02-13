@@ -30,12 +30,14 @@ public class Debugger : BlasMod
             PixelsPerUnit = 24
         });
 
+        Config cfg = ConfigHandler.Load<Config>();
+
         _modules =
         [
-            new InfoDisplay(),
+            new InfoDisplay(cfg.infoPrecision),
             new HitboxViewer(hitbox),
-            new NoClip(),
-            new FreeCam(camera),
+            new NoClip(cfg.playerSpeed),
+            new FreeCam(camera, cfg.cameraSpeed),
         ];
     }
 
