@@ -9,13 +9,13 @@
     <Authors>Damocles</Authors>
     <Company>Damocles</Company>
     <Description>Enables the hitbox viewer and other features useful for testing and development</Description>
-    <Version>0.1.0</Version>
+    <Version>1.1.0</Version>
 
     <TargetName>DebugMod</TargetName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile>bin\Release\$(TargetName).xml</DocumentationFile>
-    <RepositoryUrl>https://github.com/Example</RepositoryUrl>
+    <RepositoryUrl>https://github.com/BrandenEK/Blasphemous.DebugMod</RepositoryUrl>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
