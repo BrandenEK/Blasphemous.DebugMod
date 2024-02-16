@@ -1,7 +1,7 @@
 ﻿
 namespace Blasphemous.Debug;
 
-public class Config
+internal class Config
 {
     public int infoPrecision = 2;
     public float playerSpeed = 15f;

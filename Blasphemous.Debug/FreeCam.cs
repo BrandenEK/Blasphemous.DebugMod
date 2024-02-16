@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace Blasphemous.Debug;
 
+/// <summary>
+/// Allows the camera to move anywhere
+/// </summary>
 public class FreeCam : IModule
 {
     private readonly Sprite cameraImage;
@@ -14,6 +17,9 @@ public class FreeCam : IModule
     private Vector3 cameraPosition;
 
     private bool _enabledFreeCam = false;
+    /// <summary>
+    /// Whether this module is active
+    /// </summary>
     public bool EnabledFreeCam
     {
         get => _enabledFreeCam;
@@ -31,21 +37,30 @@ public class FreeCam : IModule
         }
     }
 
-    public FreeCam(Sprite camera, float speed)
+    internal FreeCam(Sprite camera, float speed)
     {
         cameraImage = camera;
         _speed = speed;
     }
 
+    /// <summary>
+    /// On load, do nothing
+    /// </summary>
     public void OnLevelLoaded()
     {
     }
 
+    /// <summary>
+    /// On unload, disable freecam
+    /// </summary>
     public void OnLevelUnloaded()
     {
         EnabledFreeCam = false;
     }
 
+    /// <summary>
+    /// Every frame, check for input and move camera
+    /// </summary>
     public void Update()
     {
         if (Main.Debugger.InputHandler.GetKeyDown("Free_Cam"))
@@ -76,7 +91,8 @@ public class FreeCam : IModule
 
     private void UpdateFreeCam()
     {
-        if (Camera.main == null) return;
+        if (Camera.main == null)
+            return;
 
         if (EnabledFreeCam)
         {

@@ -8,11 +8,13 @@
     <Product>Debug Mod</Product>
     <Authors>Damocles</Authors>
     <Company>Damocles</Company>
-    <Description>A mod for Blasphemous 1</Description>
+    <Description>Enables the hitbox viewer and other features useful for testing and development</Description>
     <Version>0.1.0</Version>
 
-    <TargetName>Debug</TargetName>
+    <TargetName>DebugMod</TargetName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>bin\Release\$(TargetName).xml</DocumentationFile>
     <RepositoryUrl>https://github.com/Example</RepositoryUrl>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>

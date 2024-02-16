@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Blasphemous.Debug;
 
+/// <summary>
+/// Disables collision and gravity
+/// </summary>
 public class NoClip : IModule
 {
     private readonly float _speed;
@@ -13,6 +16,9 @@ public class NoClip : IModule
     private Vector3 playerPosition;
 
     private bool _enabledFreeMove = false;
+    /// <summary>
+    /// Whether this module is active
+    /// </summary>
     public bool EnabledFreeMove
     {
         get => _enabledFreeMove;
@@ -29,20 +35,29 @@ public class NoClip : IModule
         }
     }
 
-    public NoClip(float speed)
+    internal NoClip(float speed)
     {
         _speed = speed;
     }
 
+    /// <summary>
+    /// On load, do nothing
+    /// </summary>
     public void OnLevelLoaded()
     {
     }
 
+    /// <summary>
+    /// On unload, disable noclip
+    /// </summary>
     public void OnLevelUnloaded()
     {
         EnabledFreeMove = false;
     }
 
+    /// <summary>
+    /// Every frame, check for input and move player
+    /// </summary>
     public void Update()
     {
         if (Main.Debugger.InputHandler.GetKeyDown("No_Clip"))
@@ -55,7 +70,8 @@ public class NoClip : IModule
 
     private void UpdateFreeMove()
     {
-        if (Core.Logic.Penitent == null) return;
+        if (Core.Logic.Penitent == null)
+            return;
 
         if (EnabledFreeMove)
         {

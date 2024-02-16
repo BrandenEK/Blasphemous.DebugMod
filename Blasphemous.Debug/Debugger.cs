@@ -5,12 +5,18 @@ using UnityEngine;
 
 namespace Blasphemous.Debug;
 
+/// <summary>
+/// Handles different modules for debugging purposes
+/// </summary>
 public class Debugger : BlasMod
 {
-    public Debugger() : base(ModInfo.MOD_ID, ModInfo.MOD_NAME, ModInfo.MOD_AUTHOR, ModInfo.MOD_VERSION) { }
+    internal Debugger() : base(ModInfo.MOD_ID, ModInfo.MOD_NAME, ModInfo.MOD_AUTHOR, ModInfo.MOD_VERSION) { }
 
     private IModule[] _modules;
 
+    /// <summary>
+    /// Register handlers and load images
+    /// </summary>
     protected override void OnInitialize()
     {
         InputHandler.RegisterDefaultKeybindings(new Dictionary<string, KeyCode>()
@@ -41,18 +47,27 @@ public class Debugger : BlasMod
         ];
     }
 
+    /// <summary>
+    /// Update modules
+    /// </summary>
     protected override void OnLateUpdate()
     {
         foreach (var module in _modules)
             module.Update();
     }
 
+    /// <summary>
+    /// Load modules
+    /// </summary>
     protected override void OnLevelLoaded(string oldLevel, string newLevel)
     {
         foreach (var module in _modules)
             module.OnLevelLoaded();
     }
 
+    /// <summary>
+    /// Unload modules
+    /// </summary>
     protected override void OnLevelUnloaded(string oldLevel, string newLevel)
     {
         foreach (var module in _modules)

@@ -3,12 +3,18 @@ using UnityEngine;
 
 namespace Blasphemous.Debug;
 
+/// <summary>
+/// Displays hitboxes on all box colliders
+/// </summary>
 public class HitboxViewer : IModule
 {
     private readonly List<GameObject> sceneHitboxes = new();
     private readonly Sprite hitboxImage;
 
     private bool _enabledHitboxes = false;
+    /// <summary>
+    /// Whether this module is active
+    /// </summary>
     public bool EnabledHitboxes
     {
         get => _enabledHitboxes;
@@ -26,22 +32,31 @@ public class HitboxViewer : IModule
         }
     }
 
-    public HitboxViewer(Sprite hitbox)
+    internal HitboxViewer(Sprite hitbox)
     {
         hitboxImage = hitbox;
     }
 
+    /// <summary>
+    /// On load, show all hitboxes
+    /// </summary>
     public void OnLevelLoaded()
     {
         if (EnabledHitboxes)
             ShowHitboxes();
     }
 
+    /// <summary>
+    /// On unload, hide all hitboxes
+    /// </summary>
     public void OnLevelUnloaded()
     {
         HideHitboxes();
     }
 
+    /// <summary>
+    /// Every frame, check for input
+    /// </summary>
     public void Update()
     {
         if (Main.Debugger.InputHandler.GetKeyDown("Hitbox_Viewer"))

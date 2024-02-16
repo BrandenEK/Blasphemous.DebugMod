@@ -1,7 +1,7 @@
 ﻿
 namespace Blasphemous.Debug;
 
-public interface IModule
+internal interface IModule
 {
     public void OnLevelLoaded();
 

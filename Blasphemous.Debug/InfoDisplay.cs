@@ -6,17 +6,23 @@ using UnityEngine.UI;
 
 namespace Blasphemous.Debug;
 
+/// <summary>
+/// Displays debug info on the side
+/// </summary>
 public class InfoDisplay : IModule
 {
     private readonly List<Text> textObjects = new();
     private readonly int _precision;
 
-    public InfoDisplay(int precision)
+    internal InfoDisplay(int precision)
     {
         _precision = precision;
     }
 
     private bool _enabledText = false;
+    /// <summary>
+    /// Whether this module is active
+    /// </summary>
     public bool EnabledText
     {
         get => _enabledText;
@@ -34,17 +40,26 @@ public class InfoDisplay : IModule
         }
     }
 
+    /// <summary>
+    /// On load, display the text
+    /// </summary>
     public void OnLevelLoaded()
     {
         if (EnabledText)
             ShowDebugText();
     }
 
+    /// <summary>
+    /// On unload, hide the text
+    /// </summary>
     public void OnLevelUnloaded()
     {
         HideDebugText();
     }
 
+    /// <summary>
+    /// Every frame, check for input and update the text
+    /// </summary>
     public void Update()
     {
         if (Main.Debugger.InputHandler.GetKeyDown("Info_Display"))
