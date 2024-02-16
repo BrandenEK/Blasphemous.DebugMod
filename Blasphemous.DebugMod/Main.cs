@@ -1,6 +1,6 @@
 ﻿using BepInEx;
 
-namespace Blasphemous.Debug;
+namespace Blasphemous.DebugMod;
 
 [BepInPlugin(ModInfo.MOD_ID, ModInfo.MOD_NAME, ModInfo.MOD_VERSION)]
 [BepInDependency("Blasphemous.ModdingAPI", "2.1.0")]

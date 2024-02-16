@@ -3,7 +3,7 @@ using Gameplay.UI.Others.UIGameLogic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Blasphemous.Debug;
+namespace Blasphemous.DebugMod;
 
 /// <summary>
 /// Allows the camera to move anywhere

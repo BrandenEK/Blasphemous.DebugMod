@@ -4,7 +4,7 @@ using Framework.Managers;
 using Gameplay.GameControllers.Entities;
 using UnityEngine;
 
-namespace Blasphemous.Debug;
+namespace Blasphemous.DebugMod;
 
 /// <summary>
 /// Disables collision and gravity

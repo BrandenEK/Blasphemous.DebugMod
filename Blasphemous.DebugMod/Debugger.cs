@@ -3,7 +3,7 @@ using Blasphemous.ModdingAPI.Files;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Blasphemous.Debug;
+namespace Blasphemous.DebugMod;
 
 /// <summary>
 /// Handles different modules for debugging purposes

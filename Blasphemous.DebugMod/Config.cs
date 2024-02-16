@@ -1,5 +1,5 @@
 ﻿
-namespace Blasphemous.Debug;
+namespace Blasphemous.DebugMod;
 
 internal class Config
 {

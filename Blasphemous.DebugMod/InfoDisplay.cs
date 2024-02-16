@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Blasphemous.Debug;
+namespace Blasphemous.DebugMod;
 
 /// <summary>
 /// Displays debug info on the side

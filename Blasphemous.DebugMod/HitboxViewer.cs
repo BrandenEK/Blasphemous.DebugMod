@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Blasphemous.Debug;
+namespace Blasphemous.DebugMod;
 
 /// <summary>
 /// Displays hitboxes on all box colliders
