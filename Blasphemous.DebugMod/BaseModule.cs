@@ -1,6 +1,9 @@
 ﻿
 namespace Blasphemous.DebugMod;
 
+/// <summary>
+/// Handles activation/deactivation on load and toggle in update
+/// </summary>
 public class BaseModule(string input, bool autoDeactivate)
 {
     private readonly string _input = input;
@@ -8,6 +11,9 @@ public class BaseModule(string input, bool autoDeactivate)
 
     private bool _active;
 
+    /// <summary>
+    /// Whether this module is active
+    /// </summary>
     protected bool IsActive
     {
         get => _active;
@@ -21,14 +27,19 @@ public class BaseModule(string input, bool autoDeactivate)
         }
     }
 
-    //protected virtual void OnLevelLoaded() { }
-
-    //protected virtual void OnLevelUnloaded() { }
-
+    /// <summary>
+    /// Called when toggled on or when loading a new scene while active
+    /// </summary>
     protected virtual void OnActivate() { }
 
+    /// <summary>
+    /// Called when toggled off or when unloading a scene while active
+    /// </summary>
     protected virtual void OnDeactivate() { }
 
+    /// <summary>
+    /// Called every frame a game scene is loaded
+    /// </summary>
     protected virtual void OnUpdate() { }
 
     /// <summary>
