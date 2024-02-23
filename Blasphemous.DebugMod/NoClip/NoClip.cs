@@ -4,76 +4,28 @@ using Framework.Managers;
 using Gameplay.GameControllers.Entities;
 using UnityEngine;
 
-namespace Blasphemous.DebugMod;
+namespace Blasphemous.DebugMod.NoClip;
 
 /// <summary>
-/// Disables collision and gravity
+/// Module for disabling collision and gravity
 /// </summary>
-public class NoClip : IModule
+internal class NoClip(float speed) : BaseModule("No_Clip", true)
 {
-    private readonly float _speed;
+    private readonly float _speed = speed;
 
     private Vector3 playerPosition;
 
-    private bool _enabledFreeMove = false;
-    /// <summary>
-    /// Whether this module is active
-    /// </summary>
-    public bool EnabledFreeMove
+    protected override void OnDeactivate()
     {
-        get => _enabledFreeMove;
-        set
-        {
-            if (_enabledFreeMove && !value)
-            {
-                PlayerController.enabled = true;
-                PlayerFloorCollider.enabled = true;
-                PlayerDamageArea.enabled = true;
-                PlayerTrapArea.enabled = true;
-            }
-            _enabledFreeMove = value;
-        }
+        PlayerController.enabled = true;
+        PlayerFloorCollider.enabled = true;
+        PlayerDamageArea.enabled = true;
+        PlayerTrapArea.enabled = true;
     }
 
-    internal NoClip(float speed)
+    protected override void OnUpdate()
     {
-        _speed = speed;
-    }
-
-    /// <summary>
-    /// On load, do nothing
-    /// </summary>
-    public void OnLevelLoaded()
-    {
-    }
-
-    /// <summary>
-    /// On unload, disable noclip
-    /// </summary>
-    public void OnLevelUnloaded()
-    {
-        EnabledFreeMove = false;
-    }
-
-    /// <summary>
-    /// Every frame, check for input and move player
-    /// </summary>
-    public void Update()
-    {
-        if (Main.Debugger.InputHandler.GetKeyDown("No_Clip"))
-        {
-            EnabledFreeMove = !EnabledFreeMove;
-        }
-
-        UpdateFreeMove();
-    }
-
-    private void UpdateFreeMove()
-    {
-        if (Core.Logic.Penitent == null)
-            return;
-
-        if (EnabledFreeMove)
+        if (IsActive)
         {
             PlayerController.enabled = false;
             PlayerFloorCollider.enabled = false;
