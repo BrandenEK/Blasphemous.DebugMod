@@ -6,10 +6,11 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// <summary>
 /// Module for displaying hitbox info on colliders
 /// </summary>
-internal class HitboxViewer(Sprite image) : BaseModule("Hitbox_Viewer", false)
+internal class HitboxViewer(Sprite image, float delay) : BaseModule("Hitbox_Viewer", false)
 {
     private readonly Dictionary<int, HitboxData> _activeHitboxes = new();
     private readonly Sprite _image = image;
+    private readonly float _totalDelay = delay;
 
     private float _currentDelay = 0f;
 
@@ -61,7 +62,7 @@ internal class HitboxViewer(Sprite image) : BaseModule("Hitbox_Viewer", false)
             return;
 
         _currentDelay += Time.deltaTime;
-        if (_currentDelay >= 0.2f) // Change to config
+        if (_currentDelay >= _totalDelay)
         {
             OnActivate();
         }
