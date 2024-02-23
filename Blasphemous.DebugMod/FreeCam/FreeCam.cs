@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Blasphemous.DebugMod.FreeCam;
 
 /// <summary>
-/// Allows the camera to move anywhere
+/// Module for allowing the camera to move anywhere
 /// </summary>
 internal class FreeCam(Sprite image, float speed) : BaseModule("Free_Cam", true)
 {

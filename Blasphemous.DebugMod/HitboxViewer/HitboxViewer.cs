@@ -1,74 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Blasphemous.DebugMod;
+namespace Blasphemous.DebugMod.HitboxViewer;
 
 /// <summary>
-/// Displays hitboxes on all box colliders
+/// Module for displaying hitbox info on colliders
 /// </summary>
-public class HitboxViewer : IModule
+internal class HitboxViewer(Sprite image) : BaseModule("Hitbox_Viewer", false)
 {
-    private readonly List<GameObject> sceneHitboxes = new();
-    private readonly Sprite hitboxImage;
+    private readonly List<GameObject> _sceneHitboxes = new();
+    private readonly Sprite _image = image;
 
-    private bool _enabledHitboxes = false;
-    /// <summary>
-    /// Whether this module is active
-    /// </summary>
-    public bool EnabledHitboxes
-    {
-        get => _enabledHitboxes;
-        set
-        {
-            _enabledHitboxes = value;
-            if (value)
-            {
-                ShowHitboxes();
-            }
-            else
-            {
-                HideHitboxes();
-            }
-        }
-    }
-
-    internal HitboxViewer(Sprite hitbox)
-    {
-        hitboxImage = hitbox;
-    }
-
-    /// <summary>
-    /// On load, show all hitboxes
-    /// </summary>
-    public void OnLevelLoaded()
-    {
-        if (EnabledHitboxes)
-            ShowHitboxes();
-    }
-
-    /// <summary>
-    /// On unload, hide all hitboxes
-    /// </summary>
-    public void OnLevelUnloaded()
-    {
-        HideHitboxes();
-    }
-
-    /// <summary>
-    /// Every frame, check for input
-    /// </summary>
-    public void Update()
-    {
-        if (Main.Debugger.InputHandler.GetKeyDown("Hitbox_Viewer"))
-        {
-            EnabledHitboxes = !EnabledHitboxes;
-        }
-    }
-
-    private void ShowHitboxes()
+    protected override void OnActivate()
     {
         GameObject baseHitbox = CreateBaseHitbox();
-        sceneHitboxes.Clear();
+        _sceneHitboxes.Clear();
 
         foreach (BoxCollider2D collider in Object.FindObjectsOfType<BoxCollider2D>())
         {
@@ -94,37 +40,37 @@ public class HitboxViewer : IModule
             side.localPosition = new Vector3(collider.offset.x, -collider.size.y / 2 + collider.offset.y, 0);
             side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
 
-            sceneHitboxes.Add(hitbox);
+            _sceneHitboxes.Add(hitbox);
         }
 
         Object.Destroy(baseHitbox);
-        Main.Debugger.Log($"Adding outlines to {sceneHitboxes.Count} hitboxes");
+        Main.Debugger.Log($"Adding outlines to {_sceneHitboxes.Count} hitboxes");
     }
 
-    private void HideHitboxes()
+    protected override void OnDeactivate()
     {
-        for (int i = 0; i < sceneHitboxes.Count; i++)
+        for (int i = 0; i < _sceneHitboxes.Count; i++)
         {
-            if (sceneHitboxes[i] != null)
-                Object.Destroy(sceneHitboxes[i]);
+            if (_sceneHitboxes[i] != null)
+                Object.Destroy(_sceneHitboxes[i]);
         }
-        sceneHitboxes.Clear();
+        _sceneHitboxes.Clear();
     }
 
     private GameObject CreateBaseHitbox()
     {
         GameObject baseHitbox = new GameObject("Hitbox");
         GameObject side = new GameObject("TOP");
-        side.AddComponent<SpriteRenderer>().sprite = hitboxImage;
+        side.AddComponent<SpriteRenderer>().sprite = _image;
         side.transform.parent = baseHitbox.transform;
         side = new GameObject("LEFT");
-        side.AddComponent<SpriteRenderer>().sprite = hitboxImage;
+        side.AddComponent<SpriteRenderer>().sprite = _image;
         side.transform.parent = baseHitbox.transform;
         side = new GameObject("RIGHT");
-        side.AddComponent<SpriteRenderer>().sprite = hitboxImage;
+        side.AddComponent<SpriteRenderer>().sprite = _image;
         side.transform.parent = baseHitbox.transform;
         side = new GameObject("BOTTOM");
-        side.AddComponent<SpriteRenderer>().sprite = hitboxImage;
+        side.AddComponent<SpriteRenderer>().sprite = _image;
         side.transform.parent = baseHitbox.transform;
         return baseHitbox;
     }

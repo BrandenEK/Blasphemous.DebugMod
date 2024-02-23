@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Blasphemous.DebugMod.NoClip;
 
 /// <summary>
-/// Disables collision and gravity
+/// Module for disabling collision and gravity
 /// </summary>
 internal class NoClip(float speed) : BaseModule("No_Clip", true)
 {
