@@ -15,19 +15,19 @@ internal class InfoDisplay(int precision) : BaseModule("Info_Display", false)
 {
     private readonly int _precision = precision;
 
-    private Text _infoText;
+    private Text infoText;
 
     protected override void OnActivate()
     {
-        if (_infoText == null)
+        if (infoText == null)
             CreateText();
 
-        _infoText?.gameObject.SetActive(true);
+        infoText?.gameObject.SetActive(true);
     }
 
     protected override void OnDeactivate()
     {
-        _infoText?.gameObject.SetActive(false);
+        infoText?.gameObject.SetActive(false);
     }
 
     protected override void OnUpdate()
@@ -55,7 +55,7 @@ internal class InfoDisplay(int precision) : BaseModule("Info_Display", false)
         float maxFervour = Core.Logic.Penitent.Stats.Fervour.CurrentMax;
         sb.AppendLine($"Fervour: {RoundDecimal(currentFervour)}/{RoundDecimal(maxFervour)}");
 
-        _infoText.text = sb.ToString();
+        infoText.text = sb.ToString();
     }
 
     private string RoundDecimal(float num)
@@ -70,7 +70,7 @@ internal class InfoDisplay(int precision) : BaseModule("Info_Display", false)
         if (parent == null)
             return;
 
-        _infoText = UIModder.Create(new RectCreationOptions()
+        infoText = UIModder.Create(new RectCreationOptions()
         {
             Name = "Debug Text",
             Parent = parent,

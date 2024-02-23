@@ -43,6 +43,7 @@ public class Debugger : BlasMod
         [
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
             new NoClip.NoClip(cfg.playerSpeed),
+            new FreeCam.FreeCam(camera, cfg.cameraSpeed),
         ];
         //_modules =
         //[

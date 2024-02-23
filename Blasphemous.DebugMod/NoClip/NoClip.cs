@@ -9,7 +9,7 @@ namespace Blasphemous.DebugMod.NoClip;
 /// <summary>
 /// Disables collision and gravity
 /// </summary>
-public class NoClip(float speed) : BaseModule("No_Clip", true)
+internal class NoClip(float speed) : BaseModule("No_Clip", true)
 {
     private readonly float _speed = speed;
 
