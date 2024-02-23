@@ -1,9 +1,10 @@
 ﻿
 namespace Blasphemous.DebugMod;
 
-public class BaseModule(string input)
+public class BaseModule(string input, bool autoDeactivate)
 {
     private readonly string _input = input;
+    private readonly bool _autoDeactivate = autoDeactivate;
 
     private bool _active;
 
@@ -20,15 +21,15 @@ public class BaseModule(string input)
         }
     }
 
-    protected virtual void OnLevelLoaded() { }
+    //protected virtual void OnLevelLoaded() { }
 
-    protected virtual void OnLevelUnloaded() { }
-
-    protected virtual void OnUpdate() { }
+    //protected virtual void OnLevelUnloaded() { }
 
     protected virtual void OnActivate() { }
 
     protected virtual void OnDeactivate() { }
+
+    protected virtual void OnUpdate() { }
 
     /// <summary>
     /// When loading level, perform activation
@@ -46,6 +47,9 @@ public class BaseModule(string input)
     {
         if (IsActive)
             OnDeactivate();
+
+        if (_autoDeactivate)
+            _active = false;
     }
 
     /// <summary>
@@ -59,9 +63,6 @@ public class BaseModule(string input)
             IsActive = !IsActive;
         }
 
-        if (IsActive)
-        {
-            OnUpdate();
-        }
+        OnUpdate();
     }
 }

@@ -42,6 +42,7 @@ public class Debugger : BlasMod
         _modules =
         [
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
+            new NoClip.NoClip(cfg.playerSpeed),
         ];
         //_modules =
         //[

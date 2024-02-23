@@ -11,14 +11,30 @@ namespace Blasphemous.DebugMod.InfoDisplay;
 /// <summary>
 /// Module for displaying debug information
 /// </summary>
-internal class InfoDisplay(int precision) : BaseModule("Info_Display")
+internal class InfoDisplay(int precision) : BaseModule("Info_Display", false)
 {
     private readonly int _precision = precision;
 
     private Text _infoText;
 
+    protected override void OnActivate()
+    {
+        if (_infoText == null)
+            CreateText();
+
+        _infoText?.gameObject.SetActive(true);
+    }
+
+    protected override void OnDeactivate()
+    {
+        _infoText?.gameObject.SetActive(false);
+    }
+
     protected override void OnUpdate()
     {
+        if (!IsActive)
+            return;
+
         var sb = new StringBuilder();
 
         // Scene
@@ -40,19 +56,6 @@ internal class InfoDisplay(int precision) : BaseModule("Info_Display")
         sb.AppendLine($"Fervour: {RoundDecimal(currentFervour)}/{RoundDecimal(maxFervour)}");
 
         _infoText.text = sb.ToString();
-    }
-
-    protected override void OnActivate()
-    {
-        if (_infoText == null)
-            CreateText();
-
-        _infoText?.gameObject.SetActive(true);
-    }
-
-    protected override void OnDeactivate()
-    {
-        _infoText?.gameObject.SetActive(false);
     }
 
     private string RoundDecimal(float num)
