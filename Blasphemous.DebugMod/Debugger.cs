@@ -37,6 +37,7 @@ public class Debugger : BlasMod
         });
 
         Config cfg = ConfigHandler.Load<Config>();
+        ConfigHandler.Save(cfg);
 
         _modules =
         [
