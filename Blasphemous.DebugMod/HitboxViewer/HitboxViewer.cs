@@ -8,73 +8,64 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// </summary>
 internal class HitboxViewer(Sprite image) : BaseModule("Hitbox_Viewer", false)
 {
-    private readonly List<GameObject> _sceneHitboxes = new();
+    private readonly Dictionary<int, HitboxData> _activeHitboxes = new();
     private readonly Sprite _image = image;
+
+    private float _currentDelay = 0f;
 
     protected override void OnActivate()
     {
-        GameObject baseHitbox = CreateBaseHitbox();
-        _sceneHitboxes.Clear();
-
-        foreach (BoxCollider2D collider in Object.FindObjectsOfType<BoxCollider2D>())
+        // Foreach collider in the scene, add a HitboxData if it doesnt already have one
+        var foundColliders = new List<int>();
+        foreach (Collider2D collider in Object.FindObjectsOfType<Collider2D>())
         {
-            if (collider.name.StartsWith(GEOMETRY_NAME))
-                continue;
+            int id = collider.gameObject.GetInstanceID();
+            foundColliders.Add(id);
 
-            GameObject hitbox = Object.Instantiate(baseHitbox, collider.transform);
-            hitbox.transform.localPosition = Vector3.zero;
-
-            Transform side = hitbox.transform.GetChild(0);
-            side.localPosition = new Vector3(collider.offset.x, collider.size.y / 2 + collider.offset.y, 0);
-            side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
-
-            side = hitbox.transform.GetChild(1);
-            side.localPosition = new Vector3(-collider.size.x / 2 + collider.offset.x, collider.offset.y, 0);
-            side.localScale = new Vector3(SCALE_AMOUNT / collider.transform.localScale.x, collider.size.y, 0);
-
-            side = hitbox.transform.GetChild(2);
-            side.localPosition = new Vector3(collider.size.x / 2 + collider.offset.x, collider.offset.y, 0);
-            side.localScale = new Vector3(SCALE_AMOUNT / collider.transform.localScale.x, collider.size.y, 0);
-
-            side = hitbox.transform.GetChild(3);
-            side.localPosition = new Vector3(collider.offset.x, -collider.size.y / 2 + collider.offset.y, 0);
-            side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
-
-            _sceneHitboxes.Add(hitbox);
+            if (!_activeHitboxes.ContainsKey(id))
+            {
+                _activeHitboxes.Add(id, new HitboxData(collider, _image));
+            }
         }
 
-        Object.Destroy(baseHitbox);
-        Main.Debugger.Log($"Adding outlines to {_sceneHitboxes.Count} hitboxes");
+        // Foreach collider in the list that wasn't found, remove it
+        var destroyedColliders = new List<int>();
+        foreach (int colliderId in _activeHitboxes.Keys)
+        {
+            if (!foundColliders.Contains(colliderId))
+                destroyedColliders.Add(colliderId);
+        }
+        foreach (int colliderId in destroyedColliders)
+        {
+            _activeHitboxes[colliderId].DestroyHitbox();
+            _activeHitboxes.Remove(colliderId);
+        }
+
+        // Reset timer
+        _currentDelay = 0;
     }
 
     protected override void OnDeactivate()
     {
-        for (int i = 0; i < _sceneHitboxes.Count; i++)
+        foreach (HitboxData hitbox in _activeHitboxes.Values)
         {
-            if (_sceneHitboxes[i] != null)
-                Object.Destroy(_sceneHitboxes[i]);
+            hitbox.DestroyHitbox();
         }
-        _sceneHitboxes.Clear();
+
+        _activeHitboxes.Clear();
     }
 
-    private GameObject CreateBaseHitbox()
+    protected override void OnUpdate()
     {
-        GameObject baseHitbox = new GameObject("Hitbox");
-        GameObject side = new GameObject("TOP");
-        side.AddComponent<SpriteRenderer>().sprite = _image;
-        side.transform.parent = baseHitbox.transform;
-        side = new GameObject("LEFT");
-        side.AddComponent<SpriteRenderer>().sprite = _image;
-        side.transform.parent = baseHitbox.transform;
-        side = new GameObject("RIGHT");
-        side.AddComponent<SpriteRenderer>().sprite = _image;
-        side.transform.parent = baseHitbox.transform;
-        side = new GameObject("BOTTOM");
-        side.AddComponent<SpriteRenderer>().sprite = _image;
-        side.transform.parent = baseHitbox.transform;
-        return baseHitbox;
+        if (!IsActive)
+            return;
+
+        _currentDelay += Time.deltaTime;
+        if (_currentDelay >= 0.2f) // Change to config
+        {
+            OnActivate();
+        }
     }
 
-    private const float SCALE_AMOUNT = 0.05f;
     private const string GEOMETRY_NAME = "GEO_Block";
 }

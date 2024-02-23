@@ -65,7 +65,7 @@ public class Debugger : BlasMod
     /// </summary>
     protected override void OnLevelLoaded(string oldLevel, string newLevel)
     {
-        if (newLevel != "MainMenu")
+        if (newLevel == "MainMenu")
             return;
 
         foreach (var module in _modules)
@@ -77,7 +77,7 @@ public class Debugger : BlasMod
     /// </summary>
     protected override void OnLevelUnloaded(string oldLevel, string newLevel)
     {
-        if (newLevel != "MainMenu")
+        if (newLevel == "MainMenu")
             return;
 
         foreach (var module in _modules)
