@@ -41,7 +41,7 @@ public class Debugger : BlasMod
 
         _modules =
         [
-            new InfoDisplay(cfg.infoPrecision),
+            new InfoDisplay.InfoDisplay(cfg.infoPrecision),
             new HitboxViewer(hitbox),
             new NoClip(cfg.playerSpeed),
             new FreeCam(camera, cfg.cameraSpeed),
@@ -53,6 +53,9 @@ public class Debugger : BlasMod
     /// </summary>
     protected override void OnLateUpdate()
     {
+        if (!LoadStatus.GameSceneLoaded)
+            return;
+
         foreach (var module in _modules)
             module.Update();
     }
