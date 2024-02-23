@@ -12,7 +12,7 @@ public class Debugger : BlasMod
 {
     internal Debugger() : base(ModInfo.MOD_ID, ModInfo.MOD_NAME, ModInfo.MOD_AUTHOR, ModInfo.MOD_VERSION) { }
 
-    private IModule[] _modules;
+    private BaseModule[] _modules;
 
     /// <summary>
     /// Register handlers and load images
@@ -42,10 +42,14 @@ public class Debugger : BlasMod
         _modules =
         [
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
-            new HitboxViewer(hitbox),
-            new NoClip(cfg.playerSpeed),
-            new FreeCam(camera, cfg.cameraSpeed),
         ];
+        //_modules =
+        //[
+        //    new InfoDisplay.InfoDisplay(cfg.infoPrecision),
+        //    new HitboxViewer(hitbox),
+        //    new NoClip(cfg.playerSpeed),
+        //    new FreeCam(camera, cfg.cameraSpeed),
+        //];
     }
 
     /// <summary>
@@ -66,7 +70,7 @@ public class Debugger : BlasMod
     protected override void OnLevelLoaded(string oldLevel, string newLevel)
     {
         foreach (var module in _modules)
-            module.OnLevelLoaded();
+            module.LoadLevel();
     }
 
     /// <summary>
@@ -75,6 +79,6 @@ public class Debugger : BlasMod
     protected override void OnLevelUnloaded(string oldLevel, string newLevel)
     {
         foreach (var module in _modules)
-            module.OnLevelUnloaded();
+            module.UnloadLevel();
     }
 }

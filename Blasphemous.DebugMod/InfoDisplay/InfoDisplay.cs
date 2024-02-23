@@ -11,62 +11,13 @@ namespace Blasphemous.DebugMod.InfoDisplay;
 /// <summary>
 /// Module for displaying debug information
 /// </summary>
-public class InfoDisplay(int precision) : IModule
+internal class InfoDisplay(int precision) : BaseModule("Info_Display")
 {
     private readonly int _precision = precision;
 
-    private bool _showInfo = false;
-    private Text _infoText = null;
+    private Text _infoText;
 
-    /// <summary>
-    /// Should the info text be displayed
-    /// </summary>
-    public bool IsActive
-    {
-        get => _showInfo;
-        set
-        {
-            _showInfo = value;
-            SetTextVisibility(value);
-        }
-    }
-
-    /// <summary>
-    /// On load, display the text
-    /// </summary>
-    public void OnLevelLoaded()
-    {
-        if (IsActive)
-            SetTextVisibility(true);
-    }
-
-    /// <summary>
-    /// On unload, hide the text
-    /// </summary>
-    public void OnLevelUnloaded()
-    {
-        if (IsActive)
-            SetTextVisibility(false);
-    }
-
-    /// <summary>
-    /// Every frame, check for input and update the text
-    /// </summary>
-    public void Update()
-    {
-        if (Main.Debugger.InputHandler.GetKeyDown("Info_Display"))
-        {
-            Main.Debugger.Log("Toggling info display");
-            IsActive = !IsActive;
-        }
-
-        if (_showInfo)
-        {
-            UpdateText();
-        }
-    }
-
-    private void UpdateText()
+    protected override void OnUpdate()
     {
         var sb = new StringBuilder();
 
@@ -91,12 +42,17 @@ public class InfoDisplay(int precision) : IModule
         _infoText.text = sb.ToString();
     }
 
-    private void SetTextVisibility(bool visible)
+    protected override void OnActivate()
     {
-        if (visible && _infoText == null)
+        if (_infoText == null)
             CreateText();
 
-        _infoText?.gameObject.SetActive(visible);
+        _infoText?.gameObject.SetActive(true);
+    }
+
+    protected override void OnDeactivate()
+    {
+        _infoText?.gameObject.SetActive(false);
     }
 
     private string RoundDecimal(float num)
