@@ -66,6 +66,4 @@ internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
             OnActivate();
         }
     }
-
-    private const string GEOMETRY_NAME = "GEO_Block";
 }

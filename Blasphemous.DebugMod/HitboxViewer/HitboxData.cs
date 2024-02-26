@@ -41,48 +41,48 @@ internal class HitboxData
         }
 
         // Change color and order based on hitbox type
-        Color color = Color.green;
-        int order = 10000;
+        Color color;
+        int order;
         switch (collider.GetHitboxType())
         {
-            //case HitboxType.Hazard:
-            //    color = Main.DebugMod.DebugSettings.hazardColor;
-            //    order = 420;
-            //    break;
-            //case HitboxType.Damageable:
-            //    color = Main.DebugMod.DebugSettings.damageableColor;
-            //    order = 400;
-            //    break;
-            //case HitboxType.Player:
-            //    color = Main.DebugMod.DebugSettings.playerColor;
-            //    order = 380;
-            //    break;
-            //case HitboxType.Sensor:
-            //    color = Main.DebugMod.DebugSettings.sensorColor;
-            //    order = 360;
-            //    break;
-            //case HitboxType.Enemy:
-            //    color = Main.DebugMod.DebugSettings.enemyColor;
-            //    order = 340;
-            //    break;
-            //case HitboxType.Interactable:
-            //    color = Main.DebugMod.DebugSettings.interactableColor;
-            //    order = 320;
-            //    break;
-            //case HitboxType.Trigger:
-            //    color = Main.DebugMod.DebugSettings.triggerColor;
-            //    order = 300;
-            //    break;
-            //case HitboxType.Geometry:
-            //    color = Main.DebugMod.DebugSettings.geometryColor;
-            //    order = 100;
-            //    break;
-            //case HitboxType.Other:
-            //    color = Main.DebugMod.DebugSettings.otherColor;
-            //    order = 260;
-            //    break;
-            //default:
-            //    throw new System.Exception("A valid type should be calculated before now!");
+            case HitboxType.Hazard:
+                ColorUtility.TryParseHtmlString("#FF007F", out color);
+                order = 420;
+                break;
+            case HitboxType.Damageable:
+                ColorUtility.TryParseHtmlString("#FFA500", out color);
+                order = 400;
+                break;
+            case HitboxType.Player:
+                ColorUtility.TryParseHtmlString("#00CCCC", out color);
+                order = 380;
+                break;
+            case HitboxType.Sensor:
+                ColorUtility.TryParseHtmlString("#660066", out color);
+                order = 360;
+                break;
+            case HitboxType.Enemy:
+                ColorUtility.TryParseHtmlString("#DD0000", out color);
+                order = 340;
+                break;
+            case HitboxType.Interactable:
+                ColorUtility.TryParseHtmlString("#FFFF33", out color);
+                order = 320;
+                break;
+            case HitboxType.Trigger:
+                ColorUtility.TryParseHtmlString("#0066CC", out color);
+                order = 300;
+                break;
+            case HitboxType.Geometry:
+                ColorUtility.TryParseHtmlString("#00CC00", out color);
+                order = 100;
+                break;
+            case HitboxType.Other:
+                ColorUtility.TryParseHtmlString("#000099", out color);
+                order = 260;
+                break;
+            default:
+                throw new System.Exception("Invalid hitbox type!");
         }
 
         _line.sortingOrder = order;
