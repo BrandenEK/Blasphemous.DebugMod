@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
@@ -7,10 +6,9 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// <summary>
 /// Module for displaying hitbox info on colliders
 /// </summary>
-internal class HitboxViewer(Sprite image, float delay) : BaseModule("Hitbox_Viewer", false)
+internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
 {
     private readonly Dictionary<int, HitboxData> _activeHitboxes = new();
-    private readonly Sprite _image = image;
     private readonly float _totalDelay = delay;
 
     private float _currentDelay = 0f;
@@ -26,7 +24,7 @@ internal class HitboxViewer(Sprite image, float delay) : BaseModule("Hitbox_View
 
             if (!_activeHitboxes.ContainsKey(id))
             {
-                _activeHitboxes.Add(id, new HitboxData(collider, _image));
+                _activeHitboxes.Add(id, new HitboxData(collider));
             }
         }
 
@@ -45,19 +43,6 @@ internal class HitboxViewer(Sprite image, float delay) : BaseModule("Hitbox_View
 
         // Reset timer
         _currentDelay = 0;
-
-        //foreach (var layer in SortingLayer.layers.OrderBy(x => x.value))
-        //{
-        //    Main.Debugger.LogWarning(layer.name + ": " + layer.value);
-        //}
-        //foreach (var layer in Object.FindObjectsOfType<SpriteRenderer>().GroupBy(x => x.sortingLayerName))
-        //{
-        //    Main.Debugger.LogError("Layer: " + layer.Key);
-        //    foreach (var sr in layer)
-        //    {
-        //        Main.Debugger.LogWarning("Order: " + sr.sortingOrder);
-        //    }
-        //}
     }
 
     protected override void OnDeactivate()

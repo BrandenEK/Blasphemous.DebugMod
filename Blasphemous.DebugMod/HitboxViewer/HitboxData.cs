@@ -6,7 +6,7 @@ internal class HitboxData
 {
     private readonly LineRenderer _line;
 
-    public HitboxData(Collider2D col, Sprite image)
+    public HitboxData(Collider2D col)
     {
         if (col is not BoxCollider2D collider)
             return;
