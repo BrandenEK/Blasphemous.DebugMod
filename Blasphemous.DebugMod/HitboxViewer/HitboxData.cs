@@ -18,65 +18,18 @@ internal class HitboxData
 
         // Add line renderer component
         _line = obj.AddComponent<LineRenderer>();
-        _line.material = Material;//new Material(Shader.Find("Default"));
+        _line.material = Material;
         _line.sortingLayerName = "Foreground Paralax 3";
         _line.useWorldSpace = false;
-        //_line.SetWidth(LINE_WIDTH, LINE_WIDTH);
+
+        _line.startWidth = LINE_WIDTH;
+        _line.endWidth = LINE_WIDTH;
+
+        _line.sortingOrder = 10000;
         _line.startColor = Color.green;
         _line.endColor = Color.green;
-        //Main.Debugger.Log("Corner: " + _line.numCornerVertices);
-        //_line.numCornerVertices = 8;
-        //_line.loop = true;
-        _line.alignment = LineAlignment.View;
-
-        //_line.SetColors(Color.green, Color.cyan);
-        _line.startWidth = LINE_WIDTH;// * collider.size.x / 2;
-        _line.endWidth = LINE_WIDTH;// * collider.size.x / 2;
-        _line.sortingOrder = 10000000;
 
         _line.DisplayBox(collider);
-
-        //GameObject baseHitbox = CreateBaseHitbox(image);
-
-        //GameObject hitbox = Object.Instantiate(baseHitbox, collider.transform);
-        //hitbox.transform.localPosition = Vector3.zero;
-
-        //Transform side = hitbox.transform.GetChild(0);
-        //side.localPosition = new Vector3(collider.offset.x, collider.size.y / 2 + collider.offset.y, 0);
-        //side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
-
-        //side = hitbox.transform.GetChild(1);
-        //side.localPosition = new Vector3(-collider.size.x / 2 + collider.offset.x, collider.offset.y, 0);
-        //side.localScale = new Vector3(SCALE_AMOUNT / collider.transform.localScale.x, collider.size.y, 0);
-
-        //side = hitbox.transform.GetChild(2);
-        //side.localPosition = new Vector3(collider.size.x / 2 + collider.offset.x, collider.offset.y, 0);
-        //side.localScale = new Vector3(SCALE_AMOUNT / collider.transform.localScale.x, collider.size.y, 0);
-
-        //side = hitbox.transform.GetChild(3);
-        //side.localPosition = new Vector3(collider.offset.x, -collider.size.y / 2 + collider.offset.y, 0);
-        //side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
-
-        //_outlineObject = hitbox;
-        //Object.Destroy(baseHitbox);
-    }
-
-    private GameObject CreateBaseHitbox(Sprite image)
-    {
-        GameObject baseHitbox = new GameObject("Hitbox");
-        GameObject side = new GameObject("TOP");
-        side.AddComponent<SpriteRenderer>().sprite = image;
-        side.transform.parent = baseHitbox.transform;
-        side = new GameObject("LEFT");
-        side.AddComponent<SpriteRenderer>().sprite = image;
-        side.transform.parent = baseHitbox.transform;
-        side = new GameObject("RIGHT");
-        side.AddComponent<SpriteRenderer>().sprite = image;
-        side.transform.parent = baseHitbox.transform;
-        side = new GameObject("BOTTOM");
-        side.AddComponent<SpriteRenderer>().sprite = image;
-        side.transform.parent = baseHitbox.transform;
-        return baseHitbox;
     }
 
     public void DestroyHitbox()
@@ -100,7 +53,6 @@ internal class HitboxData
         }
     }
 
-    private const float SCALE_AMOUNT = 0.05f;
     private const float LINE_WIDTH = 0.06f;
 
     //private readonly LineRenderer _line;
