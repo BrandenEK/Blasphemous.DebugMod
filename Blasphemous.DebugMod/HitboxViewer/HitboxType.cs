@@ -15,13 +15,3 @@ internal enum HitboxType
 
     Invalid
 }
-
-internal enum ColliderType
-{
-    Box,
-    Circle,
-    Capsule,
-    Polygon,
-
-    Invalid
-}

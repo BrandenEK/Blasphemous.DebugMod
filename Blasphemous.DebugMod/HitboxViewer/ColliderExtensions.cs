@@ -42,18 +42,6 @@ internal static class ColliderExtensions
         return HitboxType.Other;
     }
 
-    public static ColliderType GetColliderType(this Collider2D collider)
-    {
-        return collider switch
-        {
-            BoxCollider2D => ColliderType.Box,
-            CircleCollider2D => ColliderType.Circle,
-            CapsuleCollider2D => ColliderType.Capsule,
-            PolygonCollider2D => ColliderType.Polygon,
-            _ => ColliderType.Invalid,
-        };
-    }
-
     public static bool HasComponentInParent<T>(this Transform transform)
     {
         Transform parent = transform;

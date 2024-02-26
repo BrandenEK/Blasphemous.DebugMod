@@ -8,12 +8,7 @@ internal class HitboxData
 
     public HitboxData(Collider2D collider)
     {
-        ColliderType colliderType = collider.GetColliderType();
         HitboxType hitboxType = collider.GetHitboxType();
-
-        // Verify that the collider type should be shown
-        if (colliderType == ColliderType.Invalid)
-            return;
 
         // Verify that the hitbox type should be shown
         // All hitboxes are currently shown
@@ -37,9 +32,9 @@ internal class HitboxData
             case BoxCollider2D box:
                 _line.DisplayBox(box);
                 break;
-            //case ColliderType.Circle:
-            //    _line.DisplayCircle(collider.Cast<CircleCollider2D>());
-            //    break;
+            case CircleCollider2D circle:
+                _line.DisplayCircle(circle);
+                break;
             //case ColliderType.Capsule:
             //    _line.DisplayCapsule(collider.Cast<CapsuleCollider2D>());
             //    break;

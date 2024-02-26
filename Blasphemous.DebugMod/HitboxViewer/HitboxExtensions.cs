@@ -28,7 +28,20 @@ public static class HitboxExtensions
         line.SetPoints(collider, new Vector2[BOX_VERTICES].AddBox(collider.size));
     }
 
+    /// <summary>
+    /// Draws outline for a CircleCollider2D
+    /// </summary>
+    public static void DisplayCircle(this LineRenderer line, CircleCollider2D collider)
+    {
+        // Skip colliders that are too large
+        if (collider.radius >= 5 || collider.radius <= 0.1f)
+            return;
+
+        line.SetPoints(collider, new Vector2[CIRCLE_VERTICES].AddCircle(collider.radius));
+    }
+
     private const int BOX_VERTICES = 80;
+    private const int CIRCLE_VERTICES = 80;
 
     // Points
 
@@ -58,6 +71,22 @@ public static class HitboxExtensions
         {
             Vector2 point = start + (diff * i);
             points[index + i] = point;
+        }
+        return points;
+    }
+
+    internal static Vector2[] AddCircle(this Vector2[] points, float radius)
+    {
+        for (int currentStep = 0; currentStep < points.Length; currentStep++)
+        {
+            float circumferenceProgress = (float)currentStep / (points.Length - 1);
+
+            float currentRadian = circumferenceProgress * 2 * Mathf.PI;
+
+            float xScaled = Mathf.Cos(currentRadian);
+            float yScaled = Mathf.Sin(currentRadian);
+
+            points[currentStep] = new Vector2(radius * xScaled, radius * yScaled);
         }
         return points;
     }
