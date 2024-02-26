@@ -25,6 +25,15 @@ public class Debugger : BlasMod
             { "Hitbox_Viewer", KeyCode.F2 },
             { "No_Clip", KeyCode.F3 },
             { "Free_Cam", KeyCode.F4 },
+            { "Hitbox_Hazard", KeyCode.Keypad1 },
+            { "Hitbox_Damageable", KeyCode.Keypad2 },
+            { "Hitbox_Player", KeyCode.Keypad3 },
+            { "Hitbox_Sensor", KeyCode.Keypad4 },
+            { "Hitbox_Enemy", KeyCode.Keypad5 },
+            { "Hitbox_Interactable", KeyCode.Keypad6 },
+            { "Hitbox_Trigger", KeyCode.Keypad7 },
+            { "Hitbox_Geometry", KeyCode.Keypad8 },
+            { "Hitbox_Other", KeyCode.Keypad9 },
         });
 
         FileHandler.LoadDataAsSprite("camera.png", out Sprite camera, new SpriteImportOptions()
