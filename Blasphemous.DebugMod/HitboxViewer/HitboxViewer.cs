@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
@@ -44,6 +45,19 @@ internal class HitboxViewer(Sprite image, float delay) : BaseModule("Hitbox_View
 
         // Reset timer
         _currentDelay = 0;
+
+        //foreach (var layer in SortingLayer.layers.OrderBy(x => x.value))
+        //{
+        //    Main.Debugger.LogWarning(layer.name + ": " + layer.value);
+        //}
+        //foreach (var layer in Object.FindObjectsOfType<SpriteRenderer>().GroupBy(x => x.sortingLayerName))
+        //{
+        //    Main.Debugger.LogError("Layer: " + layer.Key);
+        //    foreach (var sr in layer)
+        //    {
+        //        Main.Debugger.LogWarning("Order: " + sr.sortingOrder);
+        //    }
+        //}
     }
 
     protected override void OnDeactivate()

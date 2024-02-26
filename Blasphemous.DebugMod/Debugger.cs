@@ -27,9 +27,10 @@ public class Debugger : BlasMod
             { "Free_Cam", KeyCode.F4 },
         });
 
-        FileHandler.LoadDataAsSprite("hitbox.png", out Sprite hitbox, new SpriteImportOptions()
+        FileHandler.LoadDataAsSprite("collider.png", out Sprite hitbox, new SpriteImportOptions()
         {
-            PixelsPerUnit = 1
+            Border = Vector4.one * 2,
+            MeshType = SpriteMeshType.FullRect
         });
         FileHandler.LoadDataAsSprite("camera.png", out Sprite camera, new SpriteImportOptions()
         {

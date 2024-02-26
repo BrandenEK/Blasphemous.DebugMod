@@ -4,36 +4,61 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 
 internal class HitboxData
 {
-    private readonly GameObject _outlineObject;
+    private readonly LineRenderer _line;
 
     public HitboxData(Collider2D col, Sprite image)
     {
         if (col is not BoxCollider2D collider)
             return;
 
-        GameObject baseHitbox = CreateBaseHitbox(image);
+        // Create object as child of collider
+        var obj = new GameObject("Hitbox");
+        obj.transform.parent = collider.transform;
+        obj.transform.localPosition = Vector3.zero;
 
-        GameObject hitbox = Object.Instantiate(baseHitbox, collider.transform);
-        hitbox.transform.localPosition = Vector3.zero;
+        // Add line renderer component
+        _line = obj.AddComponent<LineRenderer>();
+        _line.material = Material;//new Material(Shader.Find("Default"));
+        _line.sortingLayerName = "Foreground Paralax 3";
+        _line.useWorldSpace = false;
+        //_line.SetWidth(LINE_WIDTH, LINE_WIDTH);
+        _line.startColor = Color.green;
+        _line.endColor = Color.green;
+        //Main.Debugger.Log("Corner: " + _line.numCornerVertices);
+        //_line.numCornerVertices = 8;
+        //_line.loop = true;
+        _line.alignment = LineAlignment.View;
 
-        Transform side = hitbox.transform.GetChild(0);
-        side.localPosition = new Vector3(collider.offset.x, collider.size.y / 2 + collider.offset.y, 0);
-        side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
+        //_line.SetColors(Color.green, Color.cyan);
+        _line.startWidth = LINE_WIDTH;// * collider.size.x / 2;
+        _line.endWidth = LINE_WIDTH;// * collider.size.x / 2;
+        _line.sortingOrder = 10000000;
 
-        side = hitbox.transform.GetChild(1);
-        side.localPosition = new Vector3(-collider.size.x / 2 + collider.offset.x, collider.offset.y, 0);
-        side.localScale = new Vector3(SCALE_AMOUNT / collider.transform.localScale.x, collider.size.y, 0);
+        _line.DisplayBox(collider);
 
-        side = hitbox.transform.GetChild(2);
-        side.localPosition = new Vector3(collider.size.x / 2 + collider.offset.x, collider.offset.y, 0);
-        side.localScale = new Vector3(SCALE_AMOUNT / collider.transform.localScale.x, collider.size.y, 0);
+        //GameObject baseHitbox = CreateBaseHitbox(image);
 
-        side = hitbox.transform.GetChild(3);
-        side.localPosition = new Vector3(collider.offset.x, -collider.size.y / 2 + collider.offset.y, 0);
-        side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
+        //GameObject hitbox = Object.Instantiate(baseHitbox, collider.transform);
+        //hitbox.transform.localPosition = Vector3.zero;
 
-        _outlineObject = hitbox;
-        Object.Destroy(baseHitbox);
+        //Transform side = hitbox.transform.GetChild(0);
+        //side.localPosition = new Vector3(collider.offset.x, collider.size.y / 2 + collider.offset.y, 0);
+        //side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
+
+        //side = hitbox.transform.GetChild(1);
+        //side.localPosition = new Vector3(-collider.size.x / 2 + collider.offset.x, collider.offset.y, 0);
+        //side.localScale = new Vector3(SCALE_AMOUNT / collider.transform.localScale.x, collider.size.y, 0);
+
+        //side = hitbox.transform.GetChild(2);
+        //side.localPosition = new Vector3(collider.size.x / 2 + collider.offset.x, collider.offset.y, 0);
+        //side.localScale = new Vector3(SCALE_AMOUNT / collider.transform.localScale.x, collider.size.y, 0);
+
+        //side = hitbox.transform.GetChild(3);
+        //side.localPosition = new Vector3(collider.offset.x, -collider.size.y / 2 + collider.offset.y, 0);
+        //side.localScale = new Vector3(collider.size.x, SCALE_AMOUNT / collider.transform.localScale.y, 0);
+
+        //_outlineObject = hitbox;
+        //Object.Destroy(baseHitbox);
     }
 
     private GameObject CreateBaseHitbox(Sprite image)
@@ -56,11 +81,27 @@ internal class HitboxData
 
     public void DestroyHitbox()
     {
-        if (_outlineObject != null)
-            Object.Destroy(_outlineObject);
+        if (_line != null && _line.gameObject != null)
+            Object.Destroy(_line.gameObject);
+    }
+
+    private static Material m_material;
+    public static Material Material
+    {
+        get
+        {
+            if (m_material == null)
+            {
+                var obj = new GameObject("Temp");
+                m_material = obj.AddComponent<SpriteRenderer>().material;
+                Object.Destroy(obj);
+            }
+            return m_material;
+        }
     }
 
     private const float SCALE_AMOUNT = 0.05f;
+    private const float LINE_WIDTH = 0.06f;
 
     //private readonly LineRenderer _line;
 
