@@ -7,6 +7,7 @@
 ## Usage
 - Press 'F1' to display debug information
 - Press 'F2' to display hitboxes
+  - Press 'Keypad1-9' to toggle the different types of hitboxes
 - Press 'F3' to enable no clip mode
   - WASD can be used to move the player around without colliders or gravity
 - Press 'F4' to enable free cam mode
