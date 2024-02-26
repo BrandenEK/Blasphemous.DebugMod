@@ -27,10 +27,6 @@ public class Debugger : BlasMod
             { "Free_Cam", KeyCode.F4 },
         });
 
-        FileHandler.LoadDataAsSprite("hitbox.png", out Sprite hitbox, new SpriteImportOptions()
-        {
-            PixelsPerUnit = 1
-        });
         FileHandler.LoadDataAsSprite("camera.png", out Sprite camera, new SpriteImportOptions()
         {
             PixelsPerUnit = 24
@@ -42,7 +38,7 @@ public class Debugger : BlasMod
         _modules =
         [
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
-            new HitboxViewer.HitboxViewer(hitbox),
+            new HitboxViewer.HitboxViewer(cfg.hitboxUpdateDelay),
             new NoClip.NoClip(cfg.playerSpeed),
             new FreeCam.FreeCam(camera, cfg.cameraSpeed),
         ];
@@ -65,6 +61,9 @@ public class Debugger : BlasMod
     /// </summary>
     protected override void OnLevelLoaded(string oldLevel, string newLevel)
     {
+        if (newLevel == "MainMenu")
+            return;
+
         foreach (var module in _modules)
             module.LoadLevel();
     }
@@ -74,6 +73,9 @@ public class Debugger : BlasMod
     /// </summary>
     protected override void OnLevelUnloaded(string oldLevel, string newLevel)
     {
+        if (newLevel == "MainMenu")
+            return;
+
         foreach (var module in _modules)
             module.UnloadLevel();
     }
