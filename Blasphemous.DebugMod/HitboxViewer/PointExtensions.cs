@@ -15,12 +15,13 @@ public static class PointExtensions
         if (points.Length % 4 != 0)
             throw new System.ArgumentException("Points length must be divisible by 4");
 
+        int quad = points.Length / 4;
         Vector2 half = size / 2;
+
         Vector2 topLeft = new(-half.x, half.y);
         Vector2 topRight = half;
         Vector2 bottomRight = new(half.x, -half.y);
         Vector2 bottomLeft = -half;
-        int quad = points.Length / 4;
 
         return points
             .AddLine(topLeft, topRight, quad * 0, quad)
