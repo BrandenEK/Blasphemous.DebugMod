@@ -30,12 +30,12 @@ internal class HitboxData
             case CircleCollider2D circle:
                 _line.DisplayCircle(circle);
                 break;
-            //case ColliderType.Capsule:
-            //    _line.DisplayCapsule(collider.Cast<CapsuleCollider2D>());
-            //    break;
-            //case ColliderType.Polygon:
-            //    _line.DisplayPolygon(collider.Cast<PolygonCollider2D>());
-            //    break;
+            case CapsuleCollider2D capsule:
+                _line.DisplayCapsule(capsule);
+                break;
+            case PolygonCollider2D polygon:
+                _line.DisplayPolygon(polygon);
+                break;
             default:
                 return;
         }

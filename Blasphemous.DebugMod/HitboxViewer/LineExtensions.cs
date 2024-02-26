@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
 
@@ -43,6 +44,31 @@ public static class LineExtensions
         line.SetPoints(collider, new Vector2[CIRCLE_VERTICES].AddCircle(collider.radius));
     }
 
+    /// <summary>
+    /// Draws outline for a CapsuleCollider2D
+    /// </summary>
+    public static void DisplayCapsule(this LineRenderer line, CapsuleCollider2D collider)
+    {
+        line.SetPoints(collider, new Vector2[CAPSULE_VERTICES + 1].AddCapsule(collider.size / 2));
+    }
+
+    /// <summary>
+    /// Draws outline for a PolygonCollider2D
+    /// </summary>
+    public static void DisplayPolygon(this LineRenderer line, PolygonCollider2D collider)
+    {
+        // Skip empty polygons
+        if (collider.pathCount == 0)
+            return;
+
+        Vector2[] points = collider.GetPath(0);
+        if (points.Length > 0)
+            points = points.Concat(new Vector2[] { points[0] }).ToArray();
+
+        line.SetPoints(collider, points);
+    }
+
     private const int BOX_VERTICES = 80;
     private const int CIRCLE_VERTICES = 80;
+    private const int CAPSULE_VERTICES = 80;
 }

@@ -48,16 +48,34 @@ public static class PointExtensions
     /// </summary>
     public static Vector2[] AddCircle(this Vector2[] points, float radius)
     {
-        for (int currentStep = 0; currentStep < points.Length; currentStep++)
+        for (int i = 0; i < points.Length; i++)
         {
-            float circumferenceProgress = (float)currentStep / (points.Length - 1);
+            float circumferenceProgress = (float)i / (points.Length - 1);
 
             float currentRadian = circumferenceProgress * 2 * Mathf.PI;
 
             float xScaled = Mathf.Cos(currentRadian);
             float yScaled = Mathf.Sin(currentRadian);
 
-            points[currentStep] = new Vector2(radius * xScaled, radius * yScaled);
+            points[i] = new Vector2(radius * xScaled, radius * yScaled);
+        }
+        return points;
+    }
+
+    /// <summary>
+    /// Calculates the points for a capsule
+    /// </summary>
+    public static Vector2[] AddCapsule(this Vector2[] points, Vector2 radius)
+    {
+        float currAngle = 20f;
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            float x = Mathf.Sin(Mathf.Deg2Rad * currAngle) * radius.x;
+            float y = Mathf.Cos(Mathf.Deg2Rad * currAngle) * radius.y;
+
+            points[i] = new Vector2(x, y);
+            currAngle += (360f / points.Length);
         }
         return points;
     }
