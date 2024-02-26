@@ -8,6 +8,7 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// </summary>
 internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
 {
+    private readonly HitboxToggle _toggle = new();
     private readonly Dictionary<int, HitboxData> _activeHitboxes = new();
     private readonly float _totalDelay = delay;
 
@@ -24,7 +25,7 @@ internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
 
             if (!_activeHitboxes.ContainsKey(id))
             {
-                _activeHitboxes.Add(id, new HitboxData(collider));
+                _activeHitboxes.Add(id, new HitboxData(collider, _toggle));
             }
         }
 
@@ -63,6 +64,12 @@ internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
         _currentDelay += Time.deltaTime;
         if (_currentDelay >= _totalDelay)
         {
+            OnActivate();
+        }
+
+        if (_toggle.CheckInput())
+        {
+            OnDeactivate();
             OnActivate();
         }
     }

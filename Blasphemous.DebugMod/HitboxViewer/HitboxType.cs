@@ -12,6 +12,4 @@ internal enum HitboxType
     Trigger,
     Geometry,
     Other,
-
-    Invalid
 }

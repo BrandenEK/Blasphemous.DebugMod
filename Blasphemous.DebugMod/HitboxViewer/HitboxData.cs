@@ -6,8 +6,13 @@ internal class HitboxData
 {
     private readonly LineRenderer _line;
 
-    public HitboxData(Collider2D collider)
+    public HitboxData(Collider2D collider, HitboxToggle toggle)
     {
+        // Make sure this type of hitbox is shown
+        HitboxType hitboxType = collider.GetHitboxType();
+        if (!toggle.ShouldShowHitbox(hitboxType))
+            return;
+
         // Create object as child of collider
         var obj = new GameObject("Hitbox");
         obj.transform.parent = collider.transform;
@@ -21,29 +26,10 @@ internal class HitboxData
         _line.startWidth = LINE_WIDTH;
         _line.endWidth = LINE_WIDTH;
 
-        // Set up drawing based on collider type
-        switch (collider)
-        {
-            case BoxCollider2D box:
-                _line.DisplayBox(box);
-                break;
-            case CircleCollider2D circle:
-                _line.DisplayCircle(circle);
-                break;
-            case CapsuleCollider2D capsule:
-                _line.DisplayCapsule(capsule);
-                break;
-            case PolygonCollider2D polygon:
-                _line.DisplayPolygon(polygon);
-                break;
-            default:
-                return;
-        }
-
         // Change color and order based on hitbox type
         Color color;
         int order;
-        switch (collider.GetHitboxType())
+        switch (hitboxType)
         {
             case HitboxType.Hazard:
                 ColorUtility.TryParseHtmlString("#FF007F", out color);
@@ -83,6 +69,25 @@ internal class HitboxData
                 break;
             default:
                 throw new System.Exception("Invalid hitbox type!");
+        }
+
+        // Set up drawing based on collider type
+        switch (collider)
+        {
+            case BoxCollider2D box:
+                _line.DisplayBox(box);
+                break;
+            case CircleCollider2D circle:
+                _line.DisplayCircle(circle);
+                break;
+            case CapsuleCollider2D capsule:
+                _line.DisplayCapsule(capsule);
+                break;
+            case PolygonCollider2D polygon:
+                _line.DisplayPolygon(polygon);
+                break;
+            default:
+                return;
         }
 
         _line.sortingOrder = order;
