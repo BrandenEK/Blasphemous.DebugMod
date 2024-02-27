@@ -22,18 +22,12 @@ internal class HitboxData
         obj.transform.eulerAngles = collider.transform.eulerAngles;
         obj.transform.localScale = collider.transform.localScale;
 
+        // Handle attack areas that haven't switched scale yet
         AttackArea attack = collider.GetComponent<AttackArea>();
-        if (attack != null && attack.ChangesColliderOrientation && attack.Entity != null)
+        if (attack != null && attack.ChangesColliderOrientation && attack.Entity != null && attack.Entity.Status.Orientation == EntityOrientation.Left)
         {
-            if (attack.Entity.Status.Orientation == EntityOrientation.Left)
-                obj.transform.localScale = new Vector3(-obj.transform.localScale.x, obj.transform.localScale.y, obj.transform.localScale.z);
-        }
-
-        if (hitboxType == HitboxType.Player)
-        {
-            Main.Debugger.LogWarning(collider.name);
-            Main.Debugger.LogError("offset: " + collider.offset);
-            Main.Debugger.LogError("Scale: " + collider.transform.localScale);
+            Vector3 scale = obj.transform.localScale;
+            obj.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
         }
 
         // Add line renderer component
