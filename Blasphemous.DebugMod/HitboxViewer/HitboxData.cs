@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Framework.FrameworkCore;
+using Gameplay.GameControllers.Entities;
+using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
 
@@ -17,6 +19,22 @@ internal class HitboxData
         var obj = new GameObject("Hitbox");
         obj.transform.parent = collider.transform;
         obj.transform.localPosition = Vector3.zero;
+        obj.transform.eulerAngles = collider.transform.eulerAngles;
+        obj.transform.localScale = collider.transform.localScale;
+
+        AttackArea attack = collider.GetComponent<AttackArea>();
+        if (attack != null && attack.ChangesColliderOrientation && attack.Entity != null)
+        {
+            if (attack.Entity.Status.Orientation == EntityOrientation.Left)
+                obj.transform.localScale = new Vector3(-obj.transform.localScale.x, obj.transform.localScale.y, obj.transform.localScale.z);
+        }
+
+        if (hitboxType == HitboxType.Player)
+        {
+            Main.Debugger.LogWarning(collider.name);
+            Main.Debugger.LogError("offset: " + collider.offset);
+            Main.Debugger.LogError("Scale: " + collider.transform.localScale);
+        }
 
         // Add line renderer component
         _line = obj.AddComponent<LineRenderer>();

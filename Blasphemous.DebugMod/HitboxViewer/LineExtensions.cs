@@ -13,14 +13,10 @@ public static class LineExtensions
     /// </summary>
     public static void SetPoints(this LineRenderer line, Collider2D collider, Vector2[] points)
     {
-        Vector2 offset = collider.offset;
-        if (collider.transform.localScale.x < 0)
-            offset.x *= -1;
-
         line.positionCount = points.Length;
         for (int i = 0; i < points.Length; i++)
         {
-            line.SetPosition(i, offset + points[i]);
+            line.SetPosition(i, collider.offset + points[i]);
         }
     }
 
