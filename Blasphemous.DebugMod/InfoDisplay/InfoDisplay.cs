@@ -1,4 +1,5 @@
 ﻿using Blasphemous.Framework.UI;
+using Blasphemous.ModdingAPI.Helpers;
 using Framework.Managers;
 using Gameplay.UI.Others.UIGameLogic;
 using System.Linq;
@@ -38,7 +39,7 @@ internal class InfoDisplay(int precision) : BaseModule("Info_Display", false)
         var sb = new StringBuilder();
 
         // Scene
-        string currentScene = Main.Debugger.LoadStatus.CurrentScene;
+        string currentScene = SceneHelper.CurrentScene;
         sb.AppendLine($"Scene: {currentScene}");
 
         // Position

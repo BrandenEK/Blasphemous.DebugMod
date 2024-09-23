@@ -1,4 +1,5 @@
-﻿
+﻿using Blasphemous.ModdingAPI;
+
 namespace Blasphemous.DebugMod.HitboxViewer;
 
 internal class HitboxToggle
@@ -12,7 +13,7 @@ internal class HitboxToggle
             if (Main.Debugger.InputHandler.GetKeyDown(_input[i]))
             {
                 _disabledHitboxes ^= (1 << i);
-                Main.Debugger.Log($"Toggling type {_input[i]}");
+                ModLog.Info($"Toggling type {_input[i]}");
                 return true;
             }
         }

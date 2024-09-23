@@ -1,4 +1,5 @@
-﻿
+﻿using Blasphemous.ModdingAPI;
+
 namespace Blasphemous.DebugMod;
 
 /// <summary>
@@ -70,7 +71,7 @@ public class BaseModule(string input, bool autoDeactivate)
     {
         if (Main.Debugger.InputHandler.GetKeyDown(_input))
         {
-            Main.Debugger.Log($"Toggling {_input}");
+            ModLog.Info($"Toggling {_input}");
             IsActive = !IsActive;
         }
 
