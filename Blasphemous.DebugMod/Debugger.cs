@@ -1,5 +1,6 @@
 ﻿using Blasphemous.ModdingAPI;
 using Blasphemous.ModdingAPI.Files;
+using Blasphemous.ModdingAPI.Helpers;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -58,7 +59,7 @@ public class Debugger : BlasMod
     /// </summary>
     protected override void OnLateUpdate()
     {
-        if (!LoadStatus.GameSceneLoaded)
+        if (!SceneHelper.GameSceneLoaded)
             return;
 
         foreach (var module in _modules)
