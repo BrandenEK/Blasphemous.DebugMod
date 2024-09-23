@@ -1,15 +1,18 @@
 # Blasphemous Debug Mod
 
-<img src="https://img.shields.io/github/downloads/BrandenEK/Blasphemous.DebugMod/total?color=6495ED&style=for-the-badge">
+<img src="https://img.shields.io/github/downloads/BrandenEK/Blasphemous.DebugMod/total?color=39B7C6&style=for-the-badge">
 
 ---
 
-## Usage
+## Features
 - Press 'F1' to display debug information
 - Press 'F2' to display hitboxes
-  - Press 'Keypad1-9' to toggle the different types of hitboxes
+  - Keypad1-9 can be used to toggle the different types of hitboxes
 - Press 'F3' to enable no clip mode
   - WASD can be used to move the player around without colliders or gravity
 - Press 'F4' to enable free cam mode
   - Arrows keys can be used to move the camera around
-- Keybindings can now be customized by editing the "Modding/keybindings/Debug Mod.txt" file
+
+## Installation
+This mod is available for download through the [Blasphemous Mod Installer](https://github.com/BrandenEK/Blasphemous.Modding.Installer)
+- Required dependencies: Modding API, UI Framework
