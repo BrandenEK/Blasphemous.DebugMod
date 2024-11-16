@@ -1,4 +1,8 @@
-﻿using Blasphemous.ModdingAPI;
+﻿using Blasphemous.DebugMod.FreeCam;
+using Blasphemous.DebugMod.HitboxViewer;
+using Blasphemous.DebugMod.InfoDisplay;
+using Blasphemous.DebugMod.NoClip;
+using Blasphemous.ModdingAPI;
 using Blasphemous.ModdingAPI.Files;
 using Blasphemous.ModdingAPI.Helpers;
 using System.Collections.Generic;
@@ -22,19 +26,19 @@ public class Debugger : BlasMod
     {
         InputHandler.RegisterDefaultKeybindings(new Dictionary<string, KeyCode>()
         {
-            { "Info_Display", KeyCode.F1 },
-            { "Hitbox_Viewer", KeyCode.F2 },
-            { "No_Clip", KeyCode.F3 },
-            { "Free_Cam", KeyCode.F4 },
-            { "Hitbox_Hazard", KeyCode.Keypad1 },
-            { "Hitbox_Damageable", KeyCode.Keypad2 },
-            { "Hitbox_Player", KeyCode.Keypad3 },
-            { "Hitbox_Sensor", KeyCode.Keypad4 },
-            { "Hitbox_Enemy", KeyCode.Keypad5 },
-            { "Hitbox_Interactable", KeyCode.Keypad6 },
-            { "Hitbox_Trigger", KeyCode.Keypad7 },
-            { "Hitbox_Geometry", KeyCode.Keypad8 },
-            { "Hitbox_Other", KeyCode.Keypad9 },
+            { PenitentInfoDisplayModule.keybindName, KeyCode.F1 },
+            { HitboxViewerModule.keybindName, KeyCode.F2 },
+            { NoClipModule.keybindName, KeyCode.F3 },
+            { FreeCamModule.keybindName, KeyCode.F4 },
+            { HitboxToggle.keybindNames[0], KeyCode.Keypad1 },
+            { HitboxToggle.keybindNames[1], KeyCode.Keypad2 },
+            { HitboxToggle.keybindNames[2], KeyCode.Keypad3 },
+            { HitboxToggle.keybindNames[3], KeyCode.Keypad4 },
+            { HitboxToggle.keybindNames[4], KeyCode.Keypad5 },
+            { HitboxToggle.keybindNames[5], KeyCode.Keypad6 },
+            { HitboxToggle.keybindNames[6], KeyCode.Keypad7 },
+            { HitboxToggle.keybindNames[7], KeyCode.Keypad8 },
+            { HitboxToggle.keybindNames[8], KeyCode.Keypad9 },
         });
 
         FileHandler.LoadDataAsSprite("camera.png", out Sprite camera, new SpriteImportOptions()
@@ -47,10 +51,10 @@ public class Debugger : BlasMod
 
         _modules =
         [
-            new InfoDisplay.PenitentInfoDisplay(cfg.infoPrecision),
-            new HitboxViewer.HitboxViewer(cfg.hitboxUpdateDelay),
-            new NoClip.NoClip(cfg.playerSpeed),
-            new FreeCam.FreeCam(camera, cfg.cameraSpeed),
+            new InfoDisplay.PenitentInfoDisplayModule(cfg.infoPrecision),
+            new HitboxViewer.HitboxViewerModule(cfg.hitboxUpdateDelay),
+            new NoClip.NoClipModule(cfg.playerSpeed),
+            new FreeCam.FreeCamModule(camera, cfg.cameraSpeed),
         ];
     }
 

@@ -9,9 +9,10 @@ namespace Blasphemous.DebugMod.NoClip;
 /// <summary>
 /// Module for disabling collision and gravity
 /// </summary>
-internal class NoClip(float speed) : BaseModule("No_Clip", true)
+internal class NoClipModule(float speed) : BaseModule(keybindName, true)
 {
     private readonly float _speed = speed;
+    internal static readonly string keybindName = "No_Clip";
 
     private Vector3 playerPosition;
 
