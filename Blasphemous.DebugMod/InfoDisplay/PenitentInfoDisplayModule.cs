@@ -1,10 +1,8 @@
 ﻿using Blasphemous.Framework.UI;
 using Blasphemous.ModdingAPI;
 using Blasphemous.ModdingAPI.Helpers;
-using Framework.FrameworkCore.Attributes;
 using Framework.FrameworkCore.Attributes.Logic;
 using Framework.Managers;
-using Gameplay.GameControllers.AnimationBehaviours.Effects.Player;
 using Gameplay.UI.Others.UIGameLogic;
 using HarmonyLib;
 using System;
@@ -137,6 +135,7 @@ internal class PenitentInfoDisplayModule(int precision) : BaseModule(keybindName
         GameObject spriteObject = new($"{gameObjectName}_sprite");
         spriteObject.transform.SetParent(obj.transform, false);
 
+        /* WIP
         // create a 1*1 sprite for coloring use
         Texture2D tex = new Texture2D(1, 1);
         tex.SetPixel(0, 0, Color.white);
@@ -148,8 +147,9 @@ internal class PenitentInfoDisplayModule(int precision) : BaseModule(keybindName
         sr.sprite = Sprite.Create(tex, new Rect(0, 0, 1, 1), new Vector2(0, 1));
         sr.color = new Color(0, 0, 0, 0.7f);
         spriteObject.transform.localScale = new Vector3(rectSize.x, rectSize.y, 1);
+        */
 
-        // store this gameObject to mod prefabStorage and a field of this class
+        // store this gameObject to a field of this class
         _gameObject = obj;
     }
 
@@ -157,6 +157,12 @@ internal class PenitentInfoDisplayModule(int precision) : BaseModule(keybindName
     {
         var sb = new StringBuilder();
         var penitent = Core.Logic.Penitent;
+
+        if (penitent == null)
+        {
+            sb.AppendLine($"Penitent info N/A");
+            return;
+        }
 
         float current;
         float max;
@@ -228,7 +234,7 @@ internal class PenitentInfoDisplayModule(int precision) : BaseModule(keybindName
                 GetAttributeDetails(penitent.Stats.RangedStrength,
                     out current, out max, out baseValue, out upgradeCount, out upgradeIncrement, out bonus);
                 sb.AppendLine($"Ranged damage: {RoundPercentage(max)} = {RoundPercentage(baseValue)}(base) + {RoundPercentage(bonus)}(bonus)");
-                
+
                 break;
             case DisplayType.Prayer:
                 // Prayer strength
@@ -321,18 +327,18 @@ internal class PenitentInfoDisplayModule(int precision) : BaseModule(keybindName
     /// <param name="upgradeIncrement">Increment on the attribute for each upgrade.</param>
     /// <param name="bonus">Sum of all other bonuses besides base and upgrades. bonus = max - baseValue - upgradeCount * upgradeIncrement </param>
     /// <exception cref="ArgumentOutOfRangeException"> Thrown if parameter `attribute` is not <see cref="Attribute"/> </exception>
-    private void GetAttributeDetails(
-        object attribute, 
-        out float current, 
-        out float max, 
-        out float baseValue, 
-        out int upgradeCount, 
-        out float upgradeIncrement, 
+    private static void GetAttributeDetails(
+        object attribute,
+        out float current,
+        out float max,
+        out float baseValue,
+        out int upgradeCount,
+        out float upgradeIncrement,
         out float bonus)
     {
         if (attribute is not Attribute)
         {
-            throw new ArgumentOutOfRangeException($"{attribute} is not instance of `Attribute` or its subclass!");
+            throw new ArgumentOutOfRangeException($"{attribute} is not instance of `Attribute` or its subclasses!");
         }
 
         if (attribute is VariableAttribute)

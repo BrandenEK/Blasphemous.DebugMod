@@ -1,4 +1,5 @@
-﻿using Blasphemous.DebugMod.FreeCam;
+﻿using Blasphemous.DebugMod.Events;
+using Blasphemous.DebugMod.FreeCam;
 using Blasphemous.DebugMod.HitboxViewer;
 using Blasphemous.DebugMod.InfoDisplay;
 using Blasphemous.DebugMod.NoClip;
@@ -19,6 +20,8 @@ public class Debugger : BlasMod
 
     private BaseModule[] _modules;
 
+    internal EventHandler EventHandler { get; } = new();
+
     /// <summary>
     /// Register handlers and load images
     /// </summary>
@@ -30,6 +33,7 @@ public class Debugger : BlasMod
             { HitboxViewerModule.keybindName, KeyCode.F2 },
             { NoClipModule.keybindName, KeyCode.F3 },
             { FreeCamModule.keybindName, KeyCode.F4 },
+            { EnemyInfoDisplayModule.keybindName, KeyCode.F5 },
             { HitboxToggle.keybindNames[0], KeyCode.Keypad1 },
             { HitboxToggle.keybindNames[1], KeyCode.Keypad2 },
             { HitboxToggle.keybindNames[2], KeyCode.Keypad3 },
@@ -55,6 +59,7 @@ public class Debugger : BlasMod
             new HitboxViewer.HitboxViewerModule(cfg.hitboxUpdateDelay),
             new NoClip.NoClipModule(cfg.playerSpeed),
             new FreeCam.FreeCamModule(camera, cfg.cameraSpeed),
+            new InfoDisplay.EnemyInfoDisplayModule(cfg.infoPrecision)
         ];
     }
 
