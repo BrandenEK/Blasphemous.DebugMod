@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
 
 /// <summary>
 /// Module for displaying hitbox info on colliders
 /// </summary>
-internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
+internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
 {
     private readonly HitboxToggle _toggle = new();
-    private readonly Dictionary<int, HitboxData> _activeHitboxes = new();
-    private readonly float _totalDelay = delay;
-
-    private float _currentDelay = 0f;
 
     private CameraComponent _cameraComponent;
 
@@ -34,7 +29,8 @@ internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
 
     protected override void OnUpdate()
     {
-        _cameraComponent.UpdateStatus(IsActive);
+        if (_cameraComponent != null)
+            _cameraComponent.UpdateStatus(IsActive);
 
         if (IsActive)
         {
