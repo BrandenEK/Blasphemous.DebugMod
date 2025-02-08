@@ -1,6 +1,4 @@
-﻿using Blasphemous.ModdingAPI;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
@@ -20,72 +18,39 @@ internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
 
     protected override void OnActivate()
     {
-        //foreach (var cam in Object.FindObjectsOfType<Camera>())
-        //{
-        //    ModLog.Info(cam.name);
-        //    ModLog.Warn(cam.orthographicSize);
-        //}
         var camera = Camera.main;//Object.FindObjectsOfType<Camera>().First(x => x.name == "Virtual Camera");
         if (camera.GetComponent<CameraComponent>() == null)
         {
             _cameraComponent = camera.gameObject.AddComponent<CameraComponent>();
         }
 
-        // Foreach collider in the scene, add a HitboxData if it doesnt already have one
-        var foundColliders = new List<int>();
-        foreach (Collider2D collider in Object.FindObjectsOfType<Collider2D>())
-        {
-            int id = collider.gameObject.GetInstanceID();
-            foundColliders.Add(id);
-
-            if (!_activeHitboxes.ContainsKey(id))
-            {
-                _activeHitboxes.Add(id, new HitboxData(collider, _toggle));
-            }
-        }
-
-        // Foreach collider in the list that wasn't found, remove it
-        var destroyedColliders = new List<int>();
-        foreach (int colliderId in _activeHitboxes.Keys)
-        {
-            if (!foundColliders.Contains(colliderId))
-                destroyedColliders.Add(colliderId);
-        }
-        foreach (int colliderId in destroyedColliders)
-        {
-            _activeHitboxes[colliderId].DestroyHitbox();
-            _activeHitboxes.Remove(colliderId);
-        }
-
-        // Reset timer
-        _currentDelay = 0;
+        ShowHitboxes();
     }
 
     protected override void OnDeactivate()
     {
-        foreach (HitboxData hitbox in _activeHitboxes.Values)
-        {
-            hitbox.DestroyHitbox();
-        }
-
-        _activeHitboxes.Clear();
+        HideHitboxes();
     }
 
     protected override void OnUpdate()
     {
-        if (!IsActive)
-            return;
+        _cameraComponent.UpdateStatus(IsActive);
 
-        _currentDelay += Time.deltaTime;
-        if (_currentDelay >= _totalDelay)
+        if (IsActive)
         {
-            OnActivate();
+            _toggle.CheckInput();
+            ShowHitboxes();
         }
+    }
 
-        if (_toggle.CheckInput())
-        {
-            OnDeactivate();
-            OnActivate();
-        }
+    private void ShowHitboxes()
+    {
+        var colliders = Object.FindObjectsOfType<Collider2D>();
+        _cameraComponent.UpdateColliders(colliders);
+    }
+
+    private void HideHitboxes()
+    {
+        _cameraComponent.UpdateColliders(null);
     }
 }
