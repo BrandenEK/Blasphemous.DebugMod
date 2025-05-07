@@ -10,10 +10,11 @@ namespace Blasphemous.DebugMod.FreeCam;
 /// <summary>
 /// Module for allowing the camera to move anywhere
 /// </summary>
-internal class FreeCam(Sprite image, float speed) : BaseModule("Free_Cam", true)
+internal class FreeCamModule(Sprite image, float speed) : BaseModule(keybindName, true)
 {
     private readonly Sprite _image = image;
     private readonly float _speed = speed;
+    internal static readonly string keybindName = "Free_Cam";
 
     private Image cameraObject;
     private Vector3 cameraPosition;

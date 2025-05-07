@@ -6,11 +6,12 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// <summary>
 /// Module for displaying hitbox info on colliders
 /// </summary>
-internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
+internal class HitboxViewerModule(float delay) : BaseModule(keybindName, false)
 {
     private readonly HitboxToggle _toggle = new();
     private readonly Dictionary<int, HitboxData> _activeHitboxes = new();
     private readonly float _totalDelay = delay;
+    internal static readonly string keybindName = "Hitbox_Viewer";
 
     private float _currentDelay = 0f;
 

@@ -1,10 +1,26 @@
 ﻿using Blasphemous.ModdingAPI;
+using System.Collections.Generic;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
 
 internal class HitboxToggle
 {
     private int _disabledHitboxes = 0;
+
+    internal static readonly List<string> keybindNames =
+    [
+        "Hitbox_Hazard",
+        "Hitbox_Damageable",
+        "Hitbox_Player",
+        "Hitbox_Sensor",
+        "Hitbox_Enemy",
+        "Hitbox_Interactable",
+        "Hitbox_Trigger",
+        "Hitbox_Geometry",
+        "Hitbox_Other",
+    ];
+
+    private readonly string[] _input = keybindNames.ToArray();
 
     public bool CheckInput()
     {
@@ -26,17 +42,4 @@ internal class HitboxToggle
         int hitbox = (int)type;
         return (_disabledHitboxes & (1 << hitbox)) == 0;
     }
-
-    private readonly string[] _input =
-    [
-        "Hitbox_Hazard",
-        "Hitbox_Damageable",
-        "Hitbox_Player",
-        "Hitbox_Sensor",
-        "Hitbox_Enemy",
-        "Hitbox_Interactable",
-        "Hitbox_Trigger",
-        "Hitbox_Geometry",
-        "Hitbox_Other",
-    ];
 }

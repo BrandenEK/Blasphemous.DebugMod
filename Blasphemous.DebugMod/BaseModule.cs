@@ -7,7 +7,7 @@ namespace Blasphemous.DebugMod;
 /// </summary>
 public class BaseModule(string input, bool autoDeactivate)
 {
-    private readonly string _input = input;
+    private protected readonly string _input = input;
     private readonly bool _autoDeactivate = autoDeactivate;
 
     private bool _active;
@@ -67,7 +67,7 @@ public class BaseModule(string input, bool autoDeactivate)
     /// <summary>
     /// Every frame, check for toggle input and update module if active
     /// </summary>
-    public void Update()
+    public virtual void Update()
     {
         if (Main.Debugger.InputHandler.GetKeyDown(_input))
         {
