@@ -9,7 +9,7 @@
     <Authors>Damocles</Authors>
     <Company>Damocles</Company>
     <Description>Enables the hitbox viewer and other features useful for testing and development</Description>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
 
     <TargetName>DebugMod</TargetName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
