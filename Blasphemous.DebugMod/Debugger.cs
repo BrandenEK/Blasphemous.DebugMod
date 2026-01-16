@@ -14,6 +14,8 @@ public class Debugger : BlasMod
 
     private BaseModule[] _modules;
 
+    internal HitboxViewer.HitboxViewer HitboxModule { get; private set; }
+
     /// <summary>
     /// Register handlers and load images
     /// </summary>
@@ -39,10 +41,11 @@ public class Debugger : BlasMod
         Config cfg = ConfigHandler.Load<Config>();
         ConfigHandler.Save(cfg);
 
+        HitboxModule = new HitboxViewer.HitboxViewer();
         _modules =
         [
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
-            new HitboxViewer.HitboxViewer(),
+            HitboxModule,
             new NoClip.NoClip(cfg.playerSpeed),
             new FreeCam.FreeCam(cfg.cameraSpeed),
         ];

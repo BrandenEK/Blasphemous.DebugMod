@@ -4,8 +4,9 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 
 public class HitboxWindow : MonoBehaviour
 {
-    private Rect window;
-    private bool open = false;
+    private Rect _window;
+    private bool _open = false;
+    private HitboxSettings _settings;
 
     private bool tizona = false;
     private bool cutscenes = false;
@@ -14,16 +15,19 @@ public class HitboxWindow : MonoBehaviour
 
     private void OnGUI()
     {
+        if (!Main.Debugger.HitboxModule.IsActive)
+        {
+            _open = false;
+            return;
+        }
+
         Cursor.visible = true;
         Event e = Event.current;
         if (e.type == EventType.MouseDown && e.button == 0)
-            open = window.Contains(e.mousePosition);
+            _open = _window.Contains(e.mousePosition);
 
-        int ypos = Screen.height - (open ? HEIGHT : 17);
-        window = GUI.Window(0, new Rect(20, ypos, 200, HEIGHT + 20), SettingsWindow, "Quality of Life");
-
-        GUI.Window(1, new Rect(240, Screen.height - 17, 200, HEIGHT + 20), SettingsWindow, "Glitch Reviver");
-        GUI.Window(2, new Rect(460, Screen.height - 17, 200, HEIGHT + 20), SettingsWindow, "Hitbox Viewer");
+        int ypos = Screen.height - (_open ? HEIGHT : 17);
+        _window = GUI.Window(0, new Rect(20, ypos, 200, HEIGHT + 20), SettingsWindow, "Hitbox Viewer");
     }
 
     private void SettingsWindow(int windowID)
@@ -38,5 +42,5 @@ public class HitboxWindow : MonoBehaviour
     }
 
     private const int HEIGHT = 300;
-    private const int LINE_HEIGHT = 30;
+    private const int LINE_HEIGHT = 20;
 }

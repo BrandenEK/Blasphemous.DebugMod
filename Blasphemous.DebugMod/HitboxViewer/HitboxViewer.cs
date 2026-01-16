@@ -61,8 +61,6 @@ internal class HitboxViewer : BaseModule
         ShowHitboxes();
     }
 
-    public static RawImage image;
-
     protected override void OnDeactivate()
     {
         HideHitboxes();
