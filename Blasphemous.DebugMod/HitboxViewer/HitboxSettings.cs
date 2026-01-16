@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
 
-public class HitboxSettings
+public class HitboxSettings : IEnumerable<ColliderSettings>
 {
     private readonly Dictionary<HitboxType, ColliderSettings> _settings = [];
 
@@ -18,7 +19,15 @@ public class HitboxSettings
         get => _settings[type];
     }
 
-    public IEnumerable<ColliderSettings> AllColliders => _settings.Values;
+    public IEnumerator<ColliderSettings> GetEnumerator()
+    {
+        return _settings.Values.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }
 
 public class ColliderSettings
