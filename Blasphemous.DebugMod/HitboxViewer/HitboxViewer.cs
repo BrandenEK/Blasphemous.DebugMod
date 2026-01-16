@@ -1,6 +1,5 @@
 ﻿using Blasphemous.Framework.UI;
 using Blasphemous.ModdingAPI;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +13,7 @@ internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
     private readonly HitboxToggle _toggle = new();
 
     private CameraComponent _cameraComponent;
+    private RawImage _imageComponent;
 
     protected override void OnActivate()
     {
@@ -38,16 +38,19 @@ internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
 
             _cameraComponent = camera.gameObject.AddComponent<CameraComponent>();
 
-            RectTransform rect = UIModder.Create(new RectCreationOptions()
+            if (_imageComponent == null)
             {
-                Name = "Hitbox texture",
-                Parent = UIModder.Parents.CanvasHighRes,
-                Position = Vector2.zero,
-                Size = new Vector2(1920, 1080),
-            });
+                RectTransform rect = UIModder.Create(new RectCreationOptions()
+                {
+                    Name = "Hitbox display",
+                    Parent = UIModder.Parents.CanvasHighRes,
+                    Position = Vector2.zero,
+                    Size = new Vector2(1920, 1080),
+                });
 
-            image = rect.gameObject.AddComponent<RawImage>();
-            image.texture = tex;
+                _imageComponent = rect.gameObject.AddComponent<RawImage>();
+                _imageComponent.texture = tex;
+            }
         }
 
         ShowHitboxes();

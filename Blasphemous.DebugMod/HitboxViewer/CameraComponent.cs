@@ -1,5 +1,4 @@
-﻿using Blasphemous.ModdingAPI;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
@@ -20,7 +19,6 @@ public class CameraComponent : MonoBehaviour
     public void UpdateColliders(Collider2D[] colliders)
     {
         _cachedColliders = colliders;
-        //ModLog.Error($"Adding {colliders.Length} colldiers");
     }
 
     public void UpdateStatus(bool isShowing)
@@ -100,7 +98,6 @@ public class CameraComponent : MonoBehaviour
         GL.End();
 
         // Deactivate render texture
-        //HitboxViewer.image.texture = _camera.targetTexture;
         RenderTexture.active = activeTexture;
     }
 
