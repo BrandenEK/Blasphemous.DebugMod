@@ -34,16 +34,16 @@ public class HitboxWindow : MonoBehaviour
     {
         int ypos = 20;
 
-        bool inactive = ReadCheckbox(ypos += LINE_HEIGHT, "Inactive", _settings.Inactive.Visible);
-        bool Hazard = ReadCheckbox(ypos += LINE_HEIGHT, "Hazard", _settings.Hazard.Visible);
         bool Damageable = ReadCheckbox(ypos += LINE_HEIGHT, "Damageable", _settings.Damageable.Visible);
+        bool Enemy = ReadCheckbox(ypos += LINE_HEIGHT, "Enemy", _settings.Enemy.Visible);
+        bool Geometry = ReadCheckbox(ypos += LINE_HEIGHT, "Geometry", _settings.Geometry.Visible);
+        bool Hazard = ReadCheckbox(ypos += LINE_HEIGHT, "Hazard", _settings.Hazard.Visible);
+        bool inactive = ReadCheckbox(ypos += LINE_HEIGHT, "Inactive", _settings.Inactive.Visible);
+        bool Interactable = ReadCheckbox(ypos += LINE_HEIGHT, "Interactable", _settings.Interactable.Visible);
+        bool Other = ReadCheckbox(ypos += LINE_HEIGHT, "Other", _settings.Other.Visible);
         bool Player = ReadCheckbox(ypos += LINE_HEIGHT, "Player", _settings.Player.Visible);
         bool Sensor = ReadCheckbox(ypos += LINE_HEIGHT, "Sensor", _settings.Sensor.Visible);
-        bool Enemy = ReadCheckbox(ypos += LINE_HEIGHT, "Enemy", _settings.Enemy.Visible);
-        bool Interactable = ReadCheckbox(ypos += LINE_HEIGHT, "Interactable", _settings.Interactable.Visible);
-        bool Geometry = ReadCheckbox(ypos += LINE_HEIGHT, "Geometry", _settings.Geometry.Visible);
         bool Trigger = ReadCheckbox(ypos += LINE_HEIGHT, "Trigger", _settings.Trigger.Visible);
-        bool Other = ReadCheckbox(ypos += LINE_HEIGHT, "Other", _settings.Other.Visible);
     }
 
     private bool ReadCheckbox(int ypos, string label, bool value)

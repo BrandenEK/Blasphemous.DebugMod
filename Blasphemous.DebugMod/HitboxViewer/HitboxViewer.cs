@@ -10,14 +10,14 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// </summary>
 internal class HitboxViewer : BaseModule
 {
+    private readonly HitboxSettings _settings;
+
     private CameraComponent _cameraComponent;
     private RawImage _imageComponent;
 
-    public HitboxSettings Settings { get; }
-
     public HitboxViewer() : base("Hitbox_Viewer", false)
     {
-        Settings = new HitboxSettings()
+        _settings = new HitboxSettings()
         {
             Inactive = new ColliderSettings("#4D4E4C", true),
             Hazard = new ColliderSettings("#FF007F", true),
@@ -32,7 +32,7 @@ internal class HitboxViewer : BaseModule
         };
 
         var comp = Main.Instance.gameObject.AddComponent<HitboxWindow>();
-        comp.InjectSettings(Settings);
+        comp.InjectSettings(_settings);
     }
 
     protected override void OnActivate()
@@ -57,7 +57,7 @@ internal class HitboxViewer : BaseModule
             camera.cullingMask = 0;
 
             _cameraComponent = camera.gameObject.AddComponent<CameraComponent>();
-            _cameraComponent.InjectSettings(Settings);
+            _cameraComponent.InjectSettings(_settings);
 
             if (_imageComponent == null)
             {

@@ -80,7 +80,7 @@ public class CameraComponent : MonoBehaviour
             if (!info.IsVisible)
                 continue;
 
-            GL.Color(_settings.GetColliderSettings(info.Type).Color);
+            GL.Color(_settings[info.Type].Color);
 
             switch (info.Collider.GetType().Name)
             {
@@ -239,7 +239,7 @@ public class CameraComponent : MonoBehaviour
         HitboxType type = collider.GetHitboxType();
 
         // Verify collider is toggled on
-        if (!_settings.GetColliderSettings(type).Visible)
+        if (!_settings[type].Visible)
             return new HitboxInfo(collider, type, false);
 
         return new HitboxInfo(collider, type, true);
