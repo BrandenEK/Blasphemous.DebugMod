@@ -8,12 +8,17 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// <summary>
 /// Module for displaying hitbox info on colliders
 /// </summary>
-internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
+internal class HitboxViewer : BaseModule
 {
     private readonly HitboxToggle _toggle = new();
 
     private CameraComponent _cameraComponent;
     private RawImage _imageComponent;
+
+    public HitboxViewer() : base("Hitbox_Viewer", false)
+    {
+        Main.Instance.gameObject.AddComponent<HitboxWindow>();
+    }
 
     protected override void OnActivate()
     {
