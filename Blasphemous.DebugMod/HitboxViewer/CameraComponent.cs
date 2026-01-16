@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Blasphemous.ModdingAPI;
+using System.Linq;
 using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
@@ -19,6 +20,7 @@ public class CameraComponent : MonoBehaviour
     public void UpdateColliders(Collider2D[] colliders)
     {
         _cachedColliders = colliders;
+        //ModLog.Error($"Adding {colliders.Length} colldiers");
     }
 
     public void UpdateStatus(bool isShowing)
@@ -29,7 +31,7 @@ public class CameraComponent : MonoBehaviour
     void Awake()
     {
         CacheLineMaterial();
-        _camera = /*Object.FindObjectsOfType<Camera>().First(x => x.name == "scene composition camera");*/ GetComponent<Camera>();
+        _camera = GetComponent<Camera>();
     }
 
     private void CacheLineMaterial()
@@ -56,22 +58,34 @@ public class CameraComponent : MonoBehaviour
 
     private void OnPostRender()
     {
+        //ModLog.Error("OnPostRender");
         if (!_isShowing || _cachedColliders == null)
             return;
 
+        // Activate render texture
+        RenderTexture activeTexture = RenderTexture.active;
+        RenderTexture.active = _camera.targetTexture;
+
+        //ModLog.Error("OnPostRender isShowing");
         _material.SetPass(0);
         CacheCameraBounds();
 
         GL.LoadOrtho();
         GL.Begin(GL.LINES);
 
+        GL.Color(Color.red);
+        GL.Vertex(Vector2.zero);
+        GL.Vertex(Vector2.one);
+
         foreach (var info in _cachedColliders.Select(CalculateInfo).OrderBy(x => x.Type))
         {
+            //ModLog.Warn($"Rendering {info.Collider.name}: {info.IsVisible}");
             if (!info.IsVisible)
                 continue;
 
             GL.Color(TypeToColor(info.Type));
 
+            //ModLog.Info(info.Collider.GetType().Name);
             switch (info.Collider.GetType().Name)
             {
                 case "BoxCollider2D":
@@ -92,6 +106,10 @@ public class CameraComponent : MonoBehaviour
         }
 
         GL.End();
+
+        // Deactivate render texture
+        HitboxViewer.image.texture = _camera.targetTexture;
+        RenderTexture.active = activeTexture;
     }
 
     void RenderBox(BoxCollider2D collider)
