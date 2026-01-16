@@ -8,10 +8,10 @@ public class HitboxWindow : MonoBehaviour
     private bool _open = false;
     private HitboxSettings _settings;
 
-    private bool tizona = false;
-    private bool cutscenes = false;
-    private bool pathnotes = false;
-    private bool warp = false;
+    public void InjectSettings(HitboxSettings settings)
+    {
+        _settings = settings;
+    }
 
     private void OnGUI()
     {
@@ -27,20 +27,31 @@ public class HitboxWindow : MonoBehaviour
             _open = _window.Contains(e.mousePosition);
 
         int ypos = Screen.height - (_open ? HEIGHT : 17);
-        _window = GUI.Window(0, new Rect(20, ypos, 200, HEIGHT + 20), SettingsWindow, "Hitbox Viewer");
+        _window = GUI.Window(0, new Rect(20, ypos, WIDTH, HEIGHT + 20), SettingsWindow, "Hitbox Viewer");
     }
 
     private void SettingsWindow(int windowID)
     {
-        GUI.Label(new Rect(10, 20, 180, 40), "Checkboxes");
-
         int ypos = 20;
-        tizona = GUI.Toggle(new Rect(10, ypos += LINE_HEIGHT, 180, LINE_HEIGHT), tizona, "Tizona fix");
-        cutscenes = GUI.Toggle(new Rect(10, ypos += LINE_HEIGHT, 180, LINE_HEIGHT), cutscenes, "Skip cutscenes");
-        pathnotes = GUI.Toggle(new Rect(10, ypos += LINE_HEIGHT, 180, LINE_HEIGHT), pathnotes, "Patch notes fix");
-        warp = GUI.Toggle(new Rect(10, ypos += LINE_HEIGHT, 180, LINE_HEIGHT), warp, "Always fast travel");
+
+        bool inactive = ReadCheckbox(ypos += LINE_HEIGHT, "Inactive", _settings.Inactive.Visible);
+        bool Hazard = ReadCheckbox(ypos += LINE_HEIGHT, "Hazard", _settings.Hazard.Visible);
+        bool Damageable = ReadCheckbox(ypos += LINE_HEIGHT, "Damageable", _settings.Damageable.Visible);
+        bool Player = ReadCheckbox(ypos += LINE_HEIGHT, "Player", _settings.Player.Visible);
+        bool Sensor = ReadCheckbox(ypos += LINE_HEIGHT, "Sensor", _settings.Sensor.Visible);
+        bool Enemy = ReadCheckbox(ypos += LINE_HEIGHT, "Enemy", _settings.Enemy.Visible);
+        bool Interactable = ReadCheckbox(ypos += LINE_HEIGHT, "Interactable", _settings.Interactable.Visible);
+        bool Geometry = ReadCheckbox(ypos += LINE_HEIGHT, "Geometry", _settings.Geometry.Visible);
+        bool Trigger = ReadCheckbox(ypos += LINE_HEIGHT, "Trigger", _settings.Trigger.Visible);
+        bool Other = ReadCheckbox(ypos += LINE_HEIGHT, "Other", _settings.Other.Visible);
     }
 
+    private bool ReadCheckbox(int ypos, string label, bool value)
+    {
+        return GUI.Toggle(new Rect(10, ypos, WIDTH - 20, LINE_HEIGHT), value, label);
+    }
+
+    private const int WIDTH = 200;
     private const int HEIGHT = 300;
     private const int LINE_HEIGHT = 20;
 }

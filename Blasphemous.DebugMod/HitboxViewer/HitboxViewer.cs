@@ -31,7 +31,8 @@ internal class HitboxViewer : BaseModule
             Other = new ColliderSettings("#000099", true),
         };
 
-        Main.Instance.gameObject.AddComponent<HitboxWindow>();
+        var comp = Main.Instance.gameObject.AddComponent<HitboxWindow>();
+        comp.InjectSettings(Settings);
     }
 
     protected override void OnActivate()
@@ -56,6 +57,7 @@ internal class HitboxViewer : BaseModule
             camera.cullingMask = 0;
 
             _cameraComponent = camera.gameObject.AddComponent<CameraComponent>();
+            _cameraComponent.InjectSettings(Settings);
 
             if (_imageComponent == null)
             {

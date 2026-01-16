@@ -17,6 +17,11 @@ public class CameraComponent : MonoBehaviour
     private int _segments = 32;
     private float _angleStep = 2 * Mathf.PI / 32;
 
+    public void InjectSettings(HitboxSettings settings)
+    {
+        _settings = settings;
+    }
+
     public void UpdateColliders(Collider2D[] colliders)
     {
         _cachedColliders = colliders;
@@ -31,7 +36,6 @@ public class CameraComponent : MonoBehaviour
     {
         CacheLineMaterial();
         _camera = GetComponent<Camera>();
-        _settings = Main.Debugger.HitboxModule.Settings;
     }
 
     private void CacheLineMaterial()
