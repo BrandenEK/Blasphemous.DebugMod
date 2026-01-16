@@ -1,4 +1,5 @@
 ﻿using Blasphemous.ModdingAPI.Input;
+using Framework.Managers;
 using UnityEngine;
 
 namespace Blasphemous.DebugMod.FreeCam;
@@ -14,7 +15,7 @@ internal class FreeCam(float speed) : BaseModule("Free_Cam", true)
 
     protected override void OnUpdate()
     {
-        if (IsActive)
+        if (IsActive && !Core.Input.HasBlocker("CONSOLE"))
         {
             float h = Main.Debugger.InputHandler.GetAxis(AxisCode.MoveRHorizontal, true);
             float v = Main.Debugger.InputHandler.GetAxis(AxisCode.MoveRVertical, true);
