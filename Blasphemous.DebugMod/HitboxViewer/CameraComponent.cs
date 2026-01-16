@@ -100,7 +100,7 @@ public class CameraComponent : MonoBehaviour
         GL.End();
 
         // Deactivate render texture
-        HitboxViewer.image.texture = _camera.targetTexture;
+        //HitboxViewer.image.texture = _camera.targetTexture;
         RenderTexture.active = activeTexture;
     }
 
