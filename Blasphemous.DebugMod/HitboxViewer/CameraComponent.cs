@@ -58,7 +58,6 @@ public class CameraComponent : MonoBehaviour
 
     private void OnPostRender()
     {
-        //ModLog.Error("OnPostRender");
         if (!_isShowing || _cachedColliders == null)
             return;
 
@@ -66,26 +65,19 @@ public class CameraComponent : MonoBehaviour
         RenderTexture activeTexture = RenderTexture.active;
         RenderTexture.active = _camera.targetTexture;
 
-        //ModLog.Error("OnPostRender isShowing");
         _material.SetPass(0);
         CacheCameraBounds();
 
         GL.LoadOrtho();
         GL.Begin(GL.LINES);
 
-        GL.Color(Color.red);
-        GL.Vertex(Vector2.zero);
-        GL.Vertex(Vector2.one);
-
         foreach (var info in _cachedColliders.Select(CalculateInfo).OrderBy(x => x.Type))
         {
-            //ModLog.Warn($"Rendering {info.Collider.name}: {info.IsVisible}");
             if (!info.IsVisible)
                 continue;
 
             GL.Color(TypeToColor(info.Type));
 
-            //ModLog.Info(info.Collider.GetType().Name);
             switch (info.Collider.GetType().Name)
             {
                 case "BoxCollider2D":

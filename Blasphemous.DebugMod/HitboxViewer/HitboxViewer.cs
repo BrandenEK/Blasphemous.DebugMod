@@ -69,31 +69,19 @@ internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
             _camera.clearFlags = CameraClearFlags.Color;
             _camera.backgroundColor = new Color32(0, 0, 0, 0);
             _camera.targetTexture = tex;
+            _camera.cullingMask = 0;
 
             _cameraComponent = _camera.gameObject.AddComponent<CameraComponent>();
 
             foreach (Component c in _camera.GetComponents<Component>())
                 ModLog.Warn(c.GetType().Name);
 
-            //RectTransform rect = UIModder.Create(new RectCreationOptions()
-            //{
-            //    Name = "Hitbox texture",
-            //    Parent = UIModder.Parents.CanvasHighRes,
-            //    XRange = new Vector2(0, 1),
-            //    YRange = new Vector2(0, 1),
-            //});
-
-            //rect.AddImage();
-
             RectTransform rect = UIModder.Create(new RectCreationOptions()
             {
                 Name = "Hitbox texture",
                 Parent = UIModder.Parents.CanvasHighRes,
-                Pivot = Vector2.zero,
                 Position = Vector2.zero,
                 Size = new Vector2(1920, 1080),
-                //XRange = new Vector2(0, 1),
-                //YRange = new Vector2(0, 1),                
             });
 
 
@@ -102,7 +90,6 @@ internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
         }
 
         ShowHitboxes();
-        _cameraComponent.enabled = true;
     }
 
     public static RawImage image;
@@ -110,7 +97,6 @@ internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
     protected override void OnDeactivate()
     {
         HideHitboxes();
-        _cameraComponent.enabled = false;
     }
 
     protected override void OnUpdate()
