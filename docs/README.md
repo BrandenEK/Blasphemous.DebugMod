@@ -4,14 +4,35 @@
 
 ---
 
-## Features
-- Press 'F1' to display debug information
-- Press 'F2' to display hitboxes
-  - Keypad1-9 can be used to toggle the different types of hitboxes
-- Press 'F3' to enable no clip mode
-  - WASD can be used to move the player around without colliders or gravity
-- Press 'F4' to enable free cam mode
-  - Arrows keys can be used to move the camera around
+## Info Display
+- Press F1 to toggle info display
+- Displays scene, position, health, and fervour
+
+## Hitbox Viewer
+- Press F2 to toggle hitbox viewer
+- Displays colored boxes around all hitboxes
+- Keypad1-9 can be used to toggle the different types of hitboxes
+
+| Type | Color |
+| ---- | ----- |
+| Inactive | Grey |
+| Hazard | Pink |
+| Damageable | Orange |
+| Player | Cyan |
+| Sensor | Purple |
+| Enemy | Red |
+| Interactable | Yellow |
+| Geometry | Green |
+| Trigger | Light blue |
+| Other | Dark blue |
+
+## No Clip
+- Press F3 to toggle noclip mode
+- WASD or left stick can be used to move the player around
+
+## Free Cam
+- Press F4 to toggle free cam mode
+- Arrow keys or right stick can be used to move the camera around
 
 ## Installation
 This mod is available for download through the [Blasphemous Mod Installer](https://github.com/BrandenEK/Blasphemous.Modding.Installer) <br>
