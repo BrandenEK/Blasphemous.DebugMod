@@ -15,8 +15,24 @@ internal class HitboxViewer : BaseModule
     private CameraComponent _cameraComponent;
     private RawImage _imageComponent;
 
+    public HitboxSettings Settings { get; }
+
     public HitboxViewer() : base("Hitbox_Viewer", false)
     {
+        Settings = new HitboxSettings()
+        {
+            Inactive = new ColliderSettings("#4D4E4C", true),
+            Hazard = new ColliderSettings("#FF007F", true),
+            Damageable = new ColliderSettings("#FFA500", true),
+            Player = new ColliderSettings("#00CCCC", true),
+            Sensor = new ColliderSettings("#660066", true),
+            Enemy = new ColliderSettings("#DD0000", true),
+            Interactable = new ColliderSettings("#FFFF33", true),
+            Trigger = new ColliderSettings("#0066CC", true),
+            Geometry = new ColliderSettings("#00CC00", true),
+            Other = new ColliderSettings("#000099", true),
+        };
+
         Main.Instance.gameObject.AddComponent<HitboxWindow>();
     }
 

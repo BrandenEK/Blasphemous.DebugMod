@@ -6,6 +6,7 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 public class CameraComponent : MonoBehaviour
 {
     private Camera _camera;
+    private HitboxSettings _settings;
 
     private Material _material;
     private Bounds _camBounds;
@@ -30,6 +31,7 @@ public class CameraComponent : MonoBehaviour
     {
         CacheLineMaterial();
         _camera = GetComponent<Camera>();
+        _settings = Main.Debugger.HitboxModule.Settings;
     }
 
     private void CacheLineMaterial()
@@ -74,7 +76,7 @@ public class CameraComponent : MonoBehaviour
             if (!info.IsVisible)
                 continue;
 
-            GL.Color(TypeToColor(info.Type));
+            GL.Color(_settings.GetColliderSettings(info.Type).Color);
 
             switch (info.Collider.GetType().Name)
             {
@@ -212,26 +214,6 @@ public class CameraComponent : MonoBehaviour
         point.y += position.y;
 
         return _camera.WorldToViewportPoint(point);
-    }
-
-    private Color TypeToColor(HitboxType hitboxType)
-    {
-        string color = hitboxType switch
-        {
-            HitboxType.Inactive => "#4D4E4C",
-            HitboxType.Hazard => "#FF007F",
-            HitboxType.Damageable => "#FFA500",
-            HitboxType.Player => "#00CCCC",
-            HitboxType.Sensor => "#660066",
-            HitboxType.Enemy => "#DD0000",
-            HitboxType.Interactable => "#FFFF33",
-            HitboxType.Trigger => "#0066CC",
-            HitboxType.Geometry => "#00CC00",
-            HitboxType.Other => "#000099",
-            _ => throw new System.Exception("A valid type should be calculated before now!"),
-        };
-
-        return ColorUtility.TryParseHtmlString(color, out Color c) ? c : Color.white;
     }
 
     private HitboxInfo CalculateInfo(Collider2D collider)
