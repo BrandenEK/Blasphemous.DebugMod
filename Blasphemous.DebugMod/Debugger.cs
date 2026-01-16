@@ -42,7 +42,7 @@ public class Debugger : BlasMod
         _modules =
         [
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
-            new HitboxViewer.HitboxViewer(cfg.hitboxUpdateDelay),
+            new HitboxViewer.HitboxViewer(),
             new NoClip.NoClip(cfg.playerSpeed),
             new FreeCam.FreeCam(cfg.cameraSpeed),
         ];

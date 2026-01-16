@@ -1,76 +1,90 @@
-﻿using System.Collections.Generic;
+﻿using Blasphemous.Framework.UI;
+using Blasphemous.ModdingAPI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
 
 /// <summary>
 /// Module for displaying hitbox info on colliders
 /// </summary>
-internal class HitboxViewer(float delay) : BaseModule("Hitbox_Viewer", false)
+internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
 {
     private readonly HitboxToggle _toggle = new();
-    private readonly Dictionary<int, HitboxData> _activeHitboxes = new();
-    private readonly float _totalDelay = delay;
 
-    private float _currentDelay = 0f;
+    private CameraComponent _cameraComponent;
+    private RawImage _imageComponent;
 
     protected override void OnActivate()
     {
-        // Foreach collider in the scene, add a HitboxData if it doesnt already have one
-        var foundColliders = new List<int>();
-        foreach (Collider2D collider in Object.FindObjectsOfType<Collider2D>())
+        if (_cameraComponent == null)
         {
-            int id = collider.gameObject.GetInstanceID();
-            foundColliders.Add(id);
+            ModLog.Info("Creating new hitbox camera");
+            var tex = new RenderTexture(1920, 1080, 24, RenderTextureFormat.ARGB32);
+            tex.Create();
 
-            if (!_activeHitboxes.ContainsKey(id))
+            var camObject = new GameObject("Hitbox Camera");
+            camObject.transform.SetParent(Camera.main.transform, false);
+
+            var camera = camObject.AddComponent<Camera>();
+            camera.orthographic = true;
+            camera.orthographicSize = Camera.main.orthographicSize;
+            camera.aspect = Camera.main.aspect;
+            camera.depth = 10;
+            camera.clearFlags = CameraClearFlags.Color;
+            camera.backgroundColor = new Color32(0, 0, 0, 0);
+            camera.targetTexture = tex;
+            camera.cullingMask = 0;
+
+            _cameraComponent = camera.gameObject.AddComponent<CameraComponent>();
+
+            if (_imageComponent == null)
             {
-                _activeHitboxes.Add(id, new HitboxData(collider, _toggle));
+                RectTransform rect = UIModder.Create(new RectCreationOptions()
+                {
+                    Name = "Hitbox display",
+                    Parent = UIModder.Parents.CanvasHighRes,
+                    Position = Vector2.zero,
+                    Size = new Vector2(1920, 1080),
+                });
+
+                _imageComponent = rect.gameObject.AddComponent<RawImage>();
+                _imageComponent.texture = tex;
             }
         }
 
-        // Foreach collider in the list that wasn't found, remove it
-        var destroyedColliders = new List<int>();
-        foreach (int colliderId in _activeHitboxes.Keys)
-        {
-            if (!foundColliders.Contains(colliderId))
-                destroyedColliders.Add(colliderId);
-        }
-        foreach (int colliderId in destroyedColliders)
-        {
-            _activeHitboxes[colliderId].DestroyHitbox();
-            _activeHitboxes.Remove(colliderId);
-        }
-
-        // Reset timer
-        _currentDelay = 0;
+        ShowHitboxes();
     }
+
+    public static RawImage image;
 
     protected override void OnDeactivate()
     {
-        foreach (HitboxData hitbox in _activeHitboxes.Values)
-        {
-            hitbox.DestroyHitbox();
-        }
-
-        _activeHitboxes.Clear();
+        HideHitboxes();
     }
 
     protected override void OnUpdate()
     {
-        if (!IsActive)
-            return;
-
-        _currentDelay += Time.deltaTime;
-        if (_currentDelay >= _totalDelay)
+        if (_cameraComponent != null)
         {
-            OnActivate();
+            _cameraComponent.UpdateStatus(IsActive);
         }
 
-        if (_toggle.CheckInput())
+        if (IsActive)
         {
-            OnDeactivate();
-            OnActivate();
+            _toggle.CheckInput();
+            ShowHitboxes();
         }
+    }
+
+    private void ShowHitboxes()
+    {
+        var colliders = Object.FindObjectsOfType<Collider2D>();
+        _cameraComponent.UpdateColliders(colliders);
+    }
+
+    private void HideHitboxes()
+    {
+        _cameraComponent.UpdateColliders(null);
     }
 }

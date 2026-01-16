@@ -10,6 +10,10 @@ internal static class ColliderExtensions
 {
     public static HitboxType GetHitboxType(this Collider2D collider)
     {
+        if (!collider.enabled)
+        {
+            return HitboxType.Inactive;
+        }
         if (collider.gameObject.tag.Contains("Trap"))
         {
             return HitboxType.Hazard;
