@@ -14,6 +14,8 @@ public class Debugger : BlasMod
 
     private BaseModule[] _modules;
 
+    internal HitboxViewer.HitboxViewer HitboxModule { get; private set; }
+
     /// <summary>
     /// Register handlers and load images
     /// </summary>
@@ -25,24 +27,16 @@ public class Debugger : BlasMod
             { "Hitbox_Viewer", KeyCode.F2 },
             { "No_Clip", KeyCode.F3 },
             { "Free_Cam", KeyCode.F4 },
-            { "Hitbox_Hazard", KeyCode.Keypad1 },
-            { "Hitbox_Damageable", KeyCode.Keypad2 },
-            { "Hitbox_Player", KeyCode.Keypad3 },
-            { "Hitbox_Sensor", KeyCode.Keypad4 },
-            { "Hitbox_Enemy", KeyCode.Keypad5 },
-            { "Hitbox_Interactable", KeyCode.Keypad6 },
-            { "Hitbox_Trigger", KeyCode.Keypad7 },
-            { "Hitbox_Geometry", KeyCode.Keypad8 },
-            { "Hitbox_Other", KeyCode.Keypad9 },
         });
 
         Config cfg = ConfigHandler.Load<Config>();
         ConfigHandler.Save(cfg);
 
+        HitboxModule = new HitboxViewer.HitboxViewer();
         _modules =
         [
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
-            new HitboxViewer.HitboxViewer(),
+            HitboxModule,
             new NoClip.NoClip(cfg.playerSpeed),
             new FreeCam.FreeCam(cfg.cameraSpeed),
         ];

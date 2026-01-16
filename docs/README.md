@@ -11,7 +11,6 @@
 ## Hitbox Viewer
 - Press F2 to toggle hitbox viewer
 - Displays colored boxes around all hitboxes
-- Keypad1-9 can be used to toggle the different types of hitboxes
 
 | Type | Color |
 | ---- | ----- |

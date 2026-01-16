@@ -8,12 +8,30 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// <summary>
 /// Module for displaying hitbox info on colliders
 /// </summary>
-internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
+internal class HitboxViewer : BaseModule
 {
-    private readonly HitboxToggle _toggle = new();
+    private readonly HitboxSettings _settings;
 
     private CameraComponent _cameraComponent;
     private RawImage _imageComponent;
+
+    public HitboxViewer() : base("Hitbox_Viewer", false)
+    {
+        _settings = new HitboxSettings(
+            new ColliderSettings(HitboxType.Damageable, "#FFA500", true),
+            new ColliderSettings(HitboxType.Enemy, "#DD0000", true),
+            new ColliderSettings(HitboxType.Geometry, "#00CC00", true),
+            new ColliderSettings(HitboxType.Hazard, "#FF007F", true),
+            new ColliderSettings(HitboxType.Inactive, "#4D4E4C", true),
+            new ColliderSettings(HitboxType.Interactable, "#FFFF33", true),
+            new ColliderSettings(HitboxType.Other, "#000099", true),
+            new ColliderSettings(HitboxType.Player, "#00CCCC", true),
+            new ColliderSettings(HitboxType.Sensor, "#660066", true),
+            new ColliderSettings(HitboxType.Trigger, "#0066CC", true));
+
+        var comp = Main.Instance.gameObject.AddComponent<HitboxWindow>();
+        comp.InjectSettings(_settings);
+    }
 
     protected override void OnActivate()
     {
@@ -37,6 +55,7 @@ internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
             camera.cullingMask = 0;
 
             _cameraComponent = camera.gameObject.AddComponent<CameraComponent>();
+            _cameraComponent.InjectSettings(_settings);
 
             if (_imageComponent == null)
             {
@@ -56,8 +75,6 @@ internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
         ShowHitboxes();
     }
 
-    public static RawImage image;
-
     protected override void OnDeactivate()
     {
         HideHitboxes();
@@ -72,7 +89,6 @@ internal class HitboxViewer() : BaseModule("Hitbox_Viewer", false)
 
         if (IsActive)
         {
-            _toggle.CheckInput();
             ShowHitboxes();
         }
     }

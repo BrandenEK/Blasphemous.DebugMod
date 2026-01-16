@@ -8,9 +8,11 @@ namespace Blasphemous.DebugMod;
 internal class Main : BaseUnityPlugin
 {
     public static Debugger Debugger { get; private set; }
+    public static Main Instance { get; private set; }
 
     private void Start()
     {
         Debugger = new Debugger();
+        Instance = this;
     }
 }

@@ -15,7 +15,7 @@ public class BaseModule(string input, bool autoDeactivate)
     /// <summary>
     /// Whether this module is active
     /// </summary>
-    protected bool IsActive
+    public bool IsActive
     {
         get => _active;
         set
