@@ -10,8 +10,6 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// </summary>
 internal class HitboxViewer : BaseModule
 {
-    private readonly HitboxToggle _toggle = new();
-
     private CameraComponent _cameraComponent;
     private RawImage _imageComponent;
 
@@ -91,7 +89,6 @@ internal class HitboxViewer : BaseModule
 
         if (IsActive)
         {
-            _toggle.CheckInput();
             ShowHitboxes();
         }
     }

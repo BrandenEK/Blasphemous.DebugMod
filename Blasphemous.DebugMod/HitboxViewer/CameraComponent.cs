@@ -235,8 +235,8 @@ public class CameraComponent : MonoBehaviour
         HitboxType type = collider.GetHitboxType();
 
         // Verify collider is toggled on
-        //if (!Main.DebugMod.HitboxModule.ToggledHitboxes[type])
-        //    return new HitboxInfo(collider, type, false);
+        if (!_settings.GetColliderSettings(type).Visible)
+            return new HitboxInfo(collider, type, false);
 
         return new HitboxInfo(collider, type, true);
     }
