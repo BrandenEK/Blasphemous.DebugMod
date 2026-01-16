@@ -7,7 +7,7 @@ namespace Blasphemous.DebugMod.FreeCam;
 /// <summary>
 /// Module for allowing the camera to move anywhere
 /// </summary>
-internal class FreeCam(float speed) : BaseModule("Free_Cam", true)
+internal class CameraModule(float speed) : BaseModule("Free_Cam", true)
 {
     private readonly float _speed = speed;
 
