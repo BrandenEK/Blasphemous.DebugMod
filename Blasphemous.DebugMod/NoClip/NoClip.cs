@@ -25,7 +25,7 @@ internal class NoClip(float speed) : BaseModule("No_Clip", true)
 
     protected override void OnUpdate()
     {
-        if (IsActive)
+        if (IsActive && !Core.Input.HasBlocker("CONSOLE"))
         {
             PlayerController.enabled = false;
             PlayerFloorCollider.enabled = false;
