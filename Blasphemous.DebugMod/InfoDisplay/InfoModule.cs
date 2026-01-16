@@ -12,7 +12,7 @@ namespace Blasphemous.DebugMod.InfoDisplay;
 /// <summary>
 /// Module for displaying debug information
 /// </summary>
-internal class InfoDisplay(int precision) : BaseModule("Info_Display", false)
+internal class InfoModule(int precision) : BaseModule("Info_Display", false)
 {
     private readonly int _precision = precision;
 

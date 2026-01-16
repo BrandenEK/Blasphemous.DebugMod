@@ -1,4 +1,6 @@
 ﻿using Blasphemous.DebugMod.FreeCam;
+using Blasphemous.DebugMod.HitboxViewer;
+using Blasphemous.DebugMod.InfoDisplay;
 using Blasphemous.DebugMod.NoClip;
 using Blasphemous.ModdingAPI;
 using Blasphemous.ModdingAPI.Helpers;
@@ -18,7 +20,8 @@ public class Debugger : BlasMod
 
     internal CameraModule CameraModule { get; private set; }
     internal FlyModule FlyModule { get; private set; }
-    internal HitboxViewer.HitboxViewer HitboxModule { get; private set; }
+    internal HitboxModule HitboxModule { get; private set; }
+    internal InfoModule InfoModule { get; private set; }
 
     /// <summary>
     /// Register handlers and load images
@@ -38,15 +41,10 @@ public class Debugger : BlasMod
 
         CameraModule = new CameraModule(cfg.cameraSpeed);
         FlyModule = new FlyModule(cfg.playerSpeed);
-        HitboxModule = new HitboxViewer.HitboxViewer();
+        HitboxModule = new HitboxModule();
+        InfoModule = new InfoModule(cfg.infoPrecision);
 
-        _modules =
-        [
-            new InfoDisplay.InfoDisplay(cfg.infoPrecision),
-            HitboxModule,
-            FlyModule,
-            CameraModule,
-        ];
+        _modules = [ InfoModule, HitboxModule, FlyModule, CameraModule, ];
     }
 
     /// <summary>

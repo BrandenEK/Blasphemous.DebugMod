@@ -8,14 +8,14 @@ namespace Blasphemous.DebugMod.HitboxViewer;
 /// <summary>
 /// Module for displaying hitbox info on colliders
 /// </summary>
-internal class HitboxViewer : BaseModule
+internal class HitboxModule : BaseModule
 {
     private readonly HitboxSettings _settings;
 
     private CameraComponent _cameraComponent;
     private RawImage _imageComponent;
 
-    public HitboxViewer() : base("Hitbox_Viewer", false)
+    public HitboxModule() : base("Hitbox_Viewer", false)
     {
         _settings = new HitboxSettings(
             new ColliderSettings(HitboxType.Damageable, "#FFA500", true),
