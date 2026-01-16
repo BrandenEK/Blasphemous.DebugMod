@@ -1,5 +1,4 @@
 ﻿using Blasphemous.ModdingAPI;
-using Blasphemous.ModdingAPI.Files;
 using Blasphemous.ModdingAPI.Helpers;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,11 +36,6 @@ public class Debugger : BlasMod
             { "Hitbox_Other", KeyCode.Keypad9 },
         });
 
-        FileHandler.LoadDataAsSprite("camera.png", out Sprite camera, new SpriteImportOptions()
-        {
-            PixelsPerUnit = 24
-        });
-
         Config cfg = ConfigHandler.Load<Config>();
         ConfigHandler.Save(cfg);
 
@@ -50,7 +44,7 @@ public class Debugger : BlasMod
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
             new HitboxViewer.HitboxViewer(cfg.hitboxUpdateDelay),
             new NoClip.NoClip(cfg.playerSpeed),
-            new FreeCam.FreeCam(camera, cfg.cameraSpeed),
+            new FreeCam.FreeCam(cfg.cameraSpeed),
         ];
     }
 
