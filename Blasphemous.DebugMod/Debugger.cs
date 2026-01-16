@@ -1,4 +1,6 @@
-﻿using Blasphemous.ModdingAPI;
+﻿using Blasphemous.DebugMod.FreeCam;
+using Blasphemous.DebugMod.NoClip;
+using Blasphemous.ModdingAPI;
 using Blasphemous.ModdingAPI.Helpers;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +16,8 @@ public class Debugger : BlasMod
 
     private BaseModule[] _modules;
 
+    internal CameraModule CameraModule { get; private set; }
+    internal FlyModule FlyModule { get; private set; }
     internal HitboxViewer.HitboxViewer HitboxModule { get; private set; }
 
     /// <summary>
@@ -32,13 +36,16 @@ public class Debugger : BlasMod
         Config cfg = ConfigHandler.Load<Config>();
         ConfigHandler.Save(cfg);
 
+        CameraModule = new CameraModule(cfg.cameraSpeed);
+        FlyModule = new FlyModule(cfg.playerSpeed);
         HitboxModule = new HitboxViewer.HitboxViewer();
+
         _modules =
         [
             new InfoDisplay.InfoDisplay(cfg.infoPrecision),
             HitboxModule,
-            new NoClip.NoClip(cfg.playerSpeed),
-            new FreeCam.FreeCam(cfg.cameraSpeed),
+            FlyModule,
+            CameraModule,
         ];
     }
 
