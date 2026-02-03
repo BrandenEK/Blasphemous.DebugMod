@@ -85,8 +85,7 @@ internal class HitboxModule : BaseModule
     {
         if (_cameraComponent != null)
         {
-
-            _cameraComponent.UpdateStatus(IsActive && !PauseWidget.IsActive() && !InventoryWidget.currentlyActive);
+            _cameraComponent.UpdateStatus(IsActive && !IsPauseMenuOpen && !IsInventoryOpen);
         }
 
         if (IsActive)
@@ -106,9 +105,27 @@ internal class HitboxModule : BaseModule
         _cameraComponent.UpdateColliders(null);
     }
 
-    private NewInventoryWidget _inventoryWidget;
-    private NewInventoryWidget InventoryWidget => _inventoryWidget ??= _inventoryWidget = Object.FindObjectOfType<NewInventoryWidget>();
+    private NewInventoryWidget x_inventoryWidget;
+    private bool IsInventoryOpen
+    {
+        get
+        {
+            if (x_inventoryWidget == null)
+                x_inventoryWidget = Object.FindObjectOfType<NewInventoryWidget>();
 
-    private PauseWidget _pauseWidget;
-    private PauseWidget PauseWidget => _pauseWidget ??= _pauseWidget = Object.FindObjectOfType<PauseWidget>();
+            return x_inventoryWidget != null && x_inventoryWidget.currentlyActive;
+        }
+    }
+
+    private PauseWidget x_pauseWidget;
+    private bool IsPauseMenuOpen
+    {
+        get
+        {
+            if (x_pauseWidget == null)
+                x_pauseWidget = Object.FindObjectOfType<PauseWidget>();
+
+            return x_pauseWidget != null && x_pauseWidget.IsActive();
+        }
+    }
 }
