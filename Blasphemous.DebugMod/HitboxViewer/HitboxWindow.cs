@@ -1,4 +1,5 @@
 ﻿using Blasphemous.ModdingAPI;
+using Blasphemous.ModdingAPI.Helpers;
 using UnityEngine;
 
 namespace Blasphemous.DebugMod.HitboxViewer;
@@ -16,8 +17,9 @@ public class HitboxWindow : MonoBehaviour
 
     private void OnGUI()
     {
-        if (!Main.Debugger.HitboxModule.IsActive)
+        if (!Main.Debugger.HitboxModule.IsActive || !SceneHelper.GameSceneLoaded)
         {
+            Cursor.visible = false;
             _open = false;
             return;
         }
