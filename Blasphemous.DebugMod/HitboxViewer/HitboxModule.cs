@@ -1,5 +1,6 @@
 ﻿using Blasphemous.Framework.UI;
 using Blasphemous.ModdingAPI;
+using Gameplay.UI.Others.MenuLogic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -84,7 +85,8 @@ internal class HitboxModule : BaseModule
     {
         if (_cameraComponent != null)
         {
-            _cameraComponent.UpdateStatus(IsActive);
+
+            _cameraComponent.UpdateStatus(IsActive && !PauseWidget.IsActive() && !InventoryWidget.currentlyActive);
         }
 
         if (IsActive)
@@ -103,4 +105,10 @@ internal class HitboxModule : BaseModule
     {
         _cameraComponent.UpdateColliders(null);
     }
+
+    private NewInventoryWidget _inventoryWidget;
+    private NewInventoryWidget InventoryWidget => _inventoryWidget ??= _inventoryWidget = Object.FindObjectOfType<NewInventoryWidget>();
+
+    private PauseWidget _pauseWidget;
+    private PauseWidget PauseWidget => _pauseWidget ??= _pauseWidget = Object.FindObjectOfType<PauseWidget>();
 }
